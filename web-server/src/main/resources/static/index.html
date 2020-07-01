@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+    <title>Fractal map</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" href="css/main_page.css" type="text/css"	media="screen" />
+
+    <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/main_page.js"></script>
+    <script type="text/javascript" src="js/frmp_init.js"></script>
+    <script type="text/javascript" src="js/frmp_servlet_call.js"></script>
+    <script type="text/javascript" src="js/frmp_paint_square.js"></script>
+    <script type="text/javascript" src="js/frmp_zoom.js"></script>
+    <script type="text/javascript" src="js/frmp_move_view.js"></script>
+</head>
+<body>
+    <table id="point_coords" style="background-color: white">
+        <tr>
+            <td class="coords_column1">Point RE:</td>
+            <td class="coords_column2"><input type="text" id="point_re" /></td>
+        </tr>
+        <tr>
+            <td class="coords_column1">Point IM:</td>
+            <td class="coords_column2"><input type="text" id="point_im" /></td>
+        </tr>
+    </table>
+    <div id="layer_index" style="background-color: white">Layer index:</div>
+    <div id="main_toolbar">
+        <table id="toolbar_table">
+            <tr>
+                <td colspan="2"><button id="home_button" onclick="FRMP.returnToInitialState()">Home</button></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button id="zoom_in_button" onclick="FRMP.zoomInOneLayer()">ZoomIn</button></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button id="zoom_out_button" onclick="FRMP.zoomOutOneLayer()">ZoomOut</button></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button id="up_button" onclick="FRMP.moveUp()">Up</button></td>
+            </tr>
+            <tr>
+                <td><button id="left_button" onclick="FRMP.moveLeft()">Left</button></td>
+                <td><button id="right_button" onclick="FRMP.moveRight()">Right</button></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button id="down_button" onclick="FRMP.moveDown()">Down</button></td>
+            </tr>
+        </table>
+    </div>
+    <canvas id="fractal_canvas" width="900" height="700"></canvas>
+    <div id="status_bar"></div>
+</body>
+</html>

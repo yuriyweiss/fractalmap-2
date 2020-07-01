@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration name="calcdisp" status="info" monitorInterval="30">
+    <Properties>
+        <property name="file-layout">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %30.30c{1} : %p{length=1} : %m%n
+        </property>
+        <property name="console-layout">| ${app-name} : %30.30c{1} : %p{length=1} : %m%n</property>
+
+        <property name="app-name">calcdisp</property>
+        <property name="file-name">${app-name}</property>
+        <property name="logs-dir">logs/test/${app-name}</property>
+        <property name="arch-dir">${logs-dir}/archive</property>
+    </Properties>
+
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${console-layout}"/>
+        </Console>
+
+        <RollingFile name="CALCDISPOUT" append="false"
+            fileName="${logs-dir}/${file-name}.log"
+            filePattern="${arch-dir}/${file-name}-%i.log.zip">
+            <PatternLayout pattern="${file-layout}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="2" fileIndex="min" compressionLevel="9"/>
+        </RollingFile>
+
+        <RollingFile name="PERFLOG" append="false"
+            fileName="${logs-dir}/${file-name}.perf"
+            filePattern="${arch-dir}/${file-name}-%i.perf.zip">
+            <PatternLayout pattern="${file-layout}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="2" fileIndex="min" compressionLevel="9"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.fractal.map" level="trace" additivity="false" includeLocation="true">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="CALCDISPOUT"/>
+        </Logger>
+
+        <Logger name="org.fractal.map.monitor.MonitorThread" level="trace" additivity="false" includeLocation="true">
+            <AppenderRef ref="PERFLOG"/>
+        </Logger>
+
+        <Root level="warn" includeLocation="true">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="CALCDISPOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>

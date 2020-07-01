@@ -1,0 +1,23 @@
+#!/bin/bash
+
+CALCDISP_HOME=/opt/fractal/calcdisp
+export CALCDISP_HOME
+
+CALCDISP_LIB=$CALCDISP_HOME/lib
+export CALCDISP_LIB
+
+CALCDISP_LOG=$CALCDISP_HOME/logs
+export CALCDISP_LOG
+
+CLASSPATH="."
+for jar in $CALCDISP_LIB/*.jar ; do
+  CLASSPATH=$CLASSPATH:$jar
+done
+export CLASSPATH
+unset jar
+
+SERVER_JVM="java -d64 -server -classpath $CLASSPATH "
+export SERVER_JVM
+
+CLIENT_JVM="java -client -classpath $CLASSPATH"
+export CLIENT_JVM

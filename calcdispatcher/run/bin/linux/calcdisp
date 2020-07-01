@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# environment
+if [ -f /opt/fractal/calcdisp/bin/env ]; then
+  . /opt/fractal/calcdisp/bin/env
+else
+  echo "error: '/opt/fractal/calcdisp/bin/env' is missing"
+  exit 1
+fi
+
+cd ..
+
+prog_pid=$CALCDISP_LOG/calcdisp.pid
+prog_out=$CALCDISP_LOG/calcdisp.out
+prog="org.fractal.map.tests.transceiver.Server"
+
+do_start() {
+  nohup $CLIENT_JVM -Xmx64m $prog >$prog_out 2>&1 &
+  echo $! >$prog_pid
+  echo "Fractal map calculation dispatcher started. Check $prog_out for console messages."
+}
+
+do_stop() {
+  java -client -classpath $CLASSPATH $prog stop
+}
+
+do_stat() {
+  java -client -classpath $CLASSPATH $prog stat $*
+}
+
+# main
+case $1 in
+  start)
+    do_start
+    exit 0
+    ;;
+
+  stop)
+    do_stop
+    exit 0
+    ;;
+
+  stat)
+    shift
+    do_stat $*
+    exit 0
+    ;;
+
+  *)
+    echo "usage: $0 { start | stop | stat }"
+    exit 1
+    ;;
+esac
+exit 0

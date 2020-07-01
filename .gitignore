@@ -1,0 +1,12 @@
+/.idea
+**/*.iml
+**/*target/
+
+**/*.log
+**/*.out
+**/*.perf
+
+/calcdispatcher/src/test/lib
+/calcdispatcher/src/test/logs
+/calcdispatcher/src/test/result
+/calcdispatcher/src/test/storage

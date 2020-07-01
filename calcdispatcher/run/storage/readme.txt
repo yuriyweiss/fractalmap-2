@@ -1,0 +1,1 @@
+storage dir for calculated squares
