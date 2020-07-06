@@ -1,0 +1,3 @@
+CREATE DATABASE fractalmap
+DEFAULT CHARACTER SET utf8
+DEFAULT COLLATE utf8_general_ci;
