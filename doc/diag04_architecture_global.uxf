@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>40</x>
+      <y>340</y>
+      <w>720</w>
+      <h>480</h>
+    </coordinates>
+    <panel_attributes>CalcDispatcher</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>250</x>
+      <y>40</y>
+      <w>440</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>WebApp</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Database</type>
+    <coordinates>
+      <x>410</x>
+      <y>910</y>
+      <w>110</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Database
+mysql</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>340</x>
+      <y>250</y>
+      <w>104</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+send
+request
+</panel_attributes>
+    <additional_attributes>60;30;60;90</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>410</x>
+      <y>250</y>
+      <w>116</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+return
+response
+</panel_attributes>
+    <additional_attributes>60;90;60;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>410</x>
+      <y>760</y>
+      <w>88</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+save
+new
+info
+</panel_attributes>
+    <additional_attributes>50;30;50;150</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>440</x>
+      <y>760</y>
+      <w>106</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+get 
+existing
+info
+</panel_attributes>
+    <additional_attributes>60;150;60;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Node</type>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>820</w>
+      <h>860</h>
+    </coordinates>
+    <panel_attributes>center:Server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>350</x>
+      <y>80</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Servlet</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>320</x>
+      <y>630</y>
+      <w>370</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>ThreadPoolExecutor
+squareExecutor</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>480</x>
+      <y>320</y>
+      <w>174</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+return
+result
+</panel_attributes>
+    <additional_attributes>130;310;130;50;30;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>370</x>
+      <y>760</y>
+      <w>94</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+check
+exists
+</panel_attributes>
+    <additional_attributes>50;30;50;150</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Database</type>
+    <coordinates>
+      <x>400</x>
+      <y>700</y>
+      <w>110</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>thread pool
+queue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>350</x>
+      <y>210</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Transeiver
+client</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Database</type>
+    <coordinates>
+      <x>1530</x>
+      <y>580</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Database</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Database</type>
+    <coordinates>
+      <x>580</x>
+      <y>90</y>
+      <w>60</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>request
+queue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>480</x>
+      <y>80</y>
+      <w>120</w>
+      <h>94</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+put
+item
+</panel_attributes>
+    <additional_attributes>30;50;100;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>480</x>
+      <y>170</y>
+      <w>120</w>
+      <h>94</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+take
+item
+</panel_attributes>
+    <additional_attributes>100;50;30;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>370</x>
+      <y>120</y>
+      <w>116</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+return
+response
+</panel_attributes>
+    <additional_attributes>60;90;60;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>350</x>
+      <y>340</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Transeiver
+server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Database</type>
+    <coordinates>
+      <x>550</x>
+      <y>910</y>
+      <w>110</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>File System</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>530</x>
+      <y>760</y>
+      <w>88</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+save
+new
+body
+</panel_attributes>
+    <additional_attributes>50;30;50;150</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>570</x>
+      <y>760</y>
+      <w>106</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+get 
+existing
+body
+</panel_attributes>
+    <additional_attributes>60;150;60;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>90</x>
+      <y>500</y>
+      <w>250</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>IncomingMessageProcessor</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>390</x>
+      <y>460</y>
+      <w>190</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>ThreadPoolExecutor
+calcExecutor</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>160</x>
+      <y>340</y>
+      <w>210</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+message
+arrived
+</panel_attributes>
+    <additional_attributes>190;50;60;50;60;160</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Database</type>
+    <coordinates>
+      <x>440</x>
+      <y>510</y>
+      <w>110</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>thread pool
+queue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>310</x>
+      <y>480</y>
+      <w>100</w>
+      <h>94</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+add
+task
+</panel_attributes>
+    <additional_attributes>30;50;80;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>170</x>
+      <y>550</y>
+      <w>170</w>
+      <h>204</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+add
+task
+</panel_attributes>
+    <additional_attributes>50;30;50;160;150;160</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>430</x>
+      <y>380</y>
+      <w>94</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+return
+result
+</panel_attributes>
+    <additional_attributes>50;80;50;30</additional_attributes>
+  </element>
+</diagram>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>680</x>
+      <y>30</y>
+      <w>330</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Transportable
+--
+int getClassId()
+void readFromByteBuffer(ByteBuffer inputBuffer)
+int estimateLength()
+void writeToByteBuffer(ByteBuffer outputBuffer)
+void releaseResources()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>100</x>
+      <y>0</y>
+      <w>470</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>Transceiver
+--
+int readPort
+int writePort
+MessagesProcessor messagesProcessor
+--
+void setMessagesProcessor(MessagesProcessor messagesProcessor)
+void start()
+void stop()
+int getReadPort()
+int getWritePort()
+void onMessageDecoded(UUID clientUUID, Transportable message)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>30</x>
+      <y>280</y>
+      <w>280</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>TransceiverClient
+--
+String ipAddress
+UUID clientUUID
+ClientCommunicationThread writer
+ClientCommunicationThread reader
+--
+void start()
+void stop()
+void send(Transportable message)
+UUID getClientUUID()
+String getIpAddress()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>30</x>
+      <y>590</y>
+      <w>330</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>ClientCommunicationThread
+--
+SocketChannel socketChannel
+Selector selector
+int selectionMode
+--
+TransceiverClient getOwner()
+int getPort()
+void run()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>130</x>
+      <y>180</y>
+      <w>150</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>130;30;130;60;30;60;30;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>500</x>
+      <y>280</y>
+      <w>570</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>TransceiverServer
+--
+ServerSocketThread readAcceptor
+ServerSocketThread writeAcceptor
+List&lt;ServerCommunicationThread&gt; readers
+List&lt;ServerCommunicationThread&gt; writers
+Map&lt;UUID, ServerThreadTuple&gt; clientsToWorkersMap
+--
+void start()
+void stop()
+void send(ServerMessage message)
+void createNewWorker(int selectionMode, SocketChannel socketChannel)
+boolean isWriterRegistered(UUID clientUUID)
+void linkClientToWorker(int selectionMode, UUID clientUUID, ServerCommunicationThread worker)
+void unregisterWorker(int selectionMode, UUID clientUUID, ServerCommunicationThread worker)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>230</x>
+      <y>180</y>
+      <w>480</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;60;460;60;460;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>50</x>
+      <y>440</y>
+      <w>64</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=reader</panel_attributes>
+    <additional_attributes>40;30;40;150</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>760</x>
+      <y>590</y>
+      <w>270</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>ServerCommunicationThread
+--
+SocketChannel socketChannel
+UUID clientUUID
+int selectionMode
+--
+TransceiverServer getOwner()
+int getSelectionMode()
+UUID getClientUUID()
+void run()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>430</x>
+      <y>590</y>
+      <w>300</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>ServerSocketThread
+--
+TransceiverServer owner
+int selectionMode
+--
+int getPort()
+void run()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>460</x>
+      <y>490</y>
+      <w>142</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+readAcceptor</panel_attributes>
+    <additional_attributes>80;30;80;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>790</x>
+      <y>490</y>
+      <w>70</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=readers
+m2=0..*</panel_attributes>
+    <additional_attributes>40;30;40;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>870</x>
+      <y>490</y>
+      <w>64</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=writers
+m2=0..*</panel_attributes>
+    <additional_attributes>40;30;40;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>160</x>
+      <y>440</y>
+      <w>58</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=writer</panel_attributes>
+    <additional_attributes>30;30;30;150</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>560</x>
+      <y>490</y>
+      <w>144</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+writeAcceptor</panel_attributes>
+    <additional_attributes>80;30;80;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>400</x>
+      <y>810</y>
+      <w>330</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>CommunicationThread
+--
+Transceiver owner
+BlockingQueue&lt;Transportable&gt; messages
+--
+UUID getClientUUID()
+void decodeMessage(ByteBuffer inputBuffer)
+void offerMessage(Transportable message)
+BlockingQueue&lt;Transportable&gt; getMessages()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>770</x>
+      <y>170</y>
+      <w>220</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>ServerMessage
+--
+UUID clientUUID
+Transportable message</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>150</x>
+      <y>700</y>
+      <w>450</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>430;110;430;70;30;70;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>550</x>
+      <y>720</y>
+      <w>370</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;90;30;50;350;50;350;30</additional_attributes>
+  </element>
+</diagram>

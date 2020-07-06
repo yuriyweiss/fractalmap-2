@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.SequenceDiagram</type>
+    <coordinates>
+      <x>20</x>
+      <y>20</y>
+      <w>390</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>title: servlet+CalcDispatcher
+_servlet~id1_|_CalcDispatcher~id2_
+id1-&gt;id2:id1,id2:request
+id1-&gt;id1:id1,id2:wait until processed
+id2-&gt;id2:id1,id2:put to queue
+id2-&gt;id2:id1,id2:process request
+id2-&gt;id1:id1,id2:return response
+id1-&gt;id1:id1:return response to client
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

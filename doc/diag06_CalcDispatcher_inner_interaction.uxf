@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.SequenceDiagram</type>
+    <coordinates>
+      <x>20</x>
+      <y>0</y>
+      <w>790</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>title: CalcDispatcher Simple calc
+_RequestProcessor~id1_|_calcQueue~id2_|_ResultsCalculator~id3_|_CalcEngine~id4_
+id1-&gt;id2:id1,id2:put request
+id1-&gt;id1:id1,id2:wait for response
+id2-&gt;id3:id1,id2,id3:take request
+id3-&gt;id4:id1,id3,id4:request calc
+id4-&gt;id4:id1,id3,id4:perform calc
+id4-&gt;id3:id1,id3,id4:return result
+id3-&gt;id1:id1,id3:return result
+id1-&gt;id1:id1:prepare response
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.SequenceDiagram</type>
+    <coordinates>
+      <x>20</x>
+      <y>370</y>
+      <w>990</w>
+      <h>770</h>
+    </coordinates>
+    <panel_attributes>title: CalcDispatcher Square calc
+_RequestProcessor~id1_|_squareQueue~id2_|_ResultsCalculator~id3_|_DB~id4_|_CalcEngine~id5_
+iframe{:result exists in DB
+id1-&gt;id2:id1,id2:put request
+id1-&gt;id1:id1,id2:wait for response
+id2-&gt;id3:id1,id2,id3:take request
+id3-&gt;id4:id1,id3,id4:check existing in DB
+id4-&gt;id3:id1,id3,id4:return existing result
+id3-&gt;id1:id1,id3:return result
+id1-&gt;id1:id1:prepare response
+iframe}
+iframe{:result not found in DB
+id1-&gt;id2:id1,id2:put request
+id1-&gt;id1:id1,id2:wait for response
+id2-&gt;id3:id1,id2,id3:take request
+id3-&gt;id4:id1,id3,id4:check existing in DB
+id4-&gt;id3:id1,id3,id4:result not found
+id3-&gt;id5:id1,id3,id5:request calc
+id5-&gt;id5:id1,id3,id5:perform calc
+id5-&gt;id3:id1,id3,id5:return result
+id3-&gt;id4:id1,id3,id4:save result to DB
+id3-&gt;id1:id1,id3:return result
+id1-&gt;id1:id1:prepare response
+iframe}</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
