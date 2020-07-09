@@ -25,6 +25,8 @@ public class SquareCalculator {
 
     private static final Logger logger = LogManager.getLogger();
 
+    private static final String ERROR_STACKTRACE = "error stacktrace";
+
     private final SquareRequest request;
     private final LoadSquareStrategy loadStrategy;
     private final SaveSquareStrategy saveStrategy;
@@ -76,9 +78,9 @@ public class SquareCalculator {
         try {
             square = loadStrategy.loadSquare( request.getLayerIndex(), request.getLeftRe(), topIm );
         } catch ( Exception e ) {
-            logger.error( "square not loaded: [layerIndex: " + request.getLayerIndex()
-                    + ", leftRe: " + request.getLeftRe() + ", topIm: " + topIm + "]" );
-            logger.debug( "error stack: ", e );
+            logger.error( "square not loaded: [layerIndex: {}, leftRe: {}, topIm: {}]",
+                    request.getLayerIndex(), request.getLeftRe(), topIm );
+            logger.debug( ERROR_STACKTRACE, e );
             square = null;
         }
     }
@@ -102,8 +104,8 @@ public class SquareCalculator {
                 saveStrategy.save( square, body );
                 result.setSquareBody( body );
             } catch ( Exception e ) {
-                logger.error( "square not saved: " + square );
-                logger.debug( "error stack: ", e );
+                logger.error( "square not saved: {}", square );
+                logger.debug( ERROR_STACKTRACE, e );
                 return new CalcErrorResponse( request.getRequestUUID(), ErrorCodes.SQUARE_BODY_SAVE_ERROR );
             }
         } else {
@@ -111,8 +113,8 @@ public class SquareCalculator {
             try {
                 saveStrategy.save( square, ( byte[] ) null );
             } catch ( Exception e ) {
-                logger.error( "square not saved: " + square );
-                logger.debug( "error stack: ", e );
+                logger.error( "square not saved: {}", square );
+                logger.debug( ERROR_STACKTRACE, e );
                 // return correct result, square not saved, but calculation not failed
             }
         }

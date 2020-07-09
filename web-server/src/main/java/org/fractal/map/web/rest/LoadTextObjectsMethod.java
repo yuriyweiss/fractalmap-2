@@ -40,7 +40,7 @@ public class LoadTextObjectsMethod extends AbstractResponseWaitingMethod {
         LoadTextObjectsInfo loadTextObjectsInfo = new LoadTextObjectsInfo();
         for ( TextObjectInfo textObjectInfo : message.getTextObjects() ) {
             loadTextObjectsInfo.addTextObject( textObjectInfo.getRe(), textObjectInfo.getIm(),
-                    textObjectInfo.getCanvasLeftX(), textObjectInfo.getCanvasTopY(), textObjectInfo.getText() );
+                    textObjectInfo.getCanvasX(), textObjectInfo.getCanvasY(), textObjectInfo.getText() );
         }
         return loadTextObjectsInfo;
     }

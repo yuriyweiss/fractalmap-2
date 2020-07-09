@@ -6,15 +6,15 @@ public class TextObjectInfo {
 
     private double re;
     private double im;
-    private int canvasLeftX;
-    private int canvasTopY;
+    private int canvasX;
+    private int canvasY;
     private String text;
 
     public void readFromByteBuffer( ByteBuffer buffer ) {
         re = buffer.getDouble();
         im = buffer.getDouble();
-        canvasLeftX = buffer.getInt();
-        canvasTopY = buffer.getInt();
+        canvasX = buffer.getInt();
+        canvasY = buffer.getInt();
         int textLength = buffer.getInt();
         byte[] textBytes = new byte[textLength];
         buffer.get( textBytes );
@@ -24,8 +24,8 @@ public class TextObjectInfo {
     public int estimateLength() {
         int result = 8; // leftRe
         result += 8; // topIm
-        result += 4; // canvasLeftX
-        result += 4; // canvasTopY
+        result += 4; // canvasX
+        result += 4; // canvasY
         result += 4; // textLength
         result += text.getBytes().length; // text.bytes.length
         return result;
@@ -34,8 +34,8 @@ public class TextObjectInfo {
     public void writeToByteBuffer( ByteBuffer buffer ) {
         buffer.putDouble( re );
         buffer.putDouble( im );
-        buffer.putInt( canvasLeftX );
-        buffer.putInt( canvasTopY );
+        buffer.putInt( canvasX );
+        buffer.putInt( canvasY );
         buffer.putInt( text.getBytes().length );
         buffer.put( text.getBytes() );
     }
@@ -48,16 +48,24 @@ public class TextObjectInfo {
         return im;
     }
 
-    public int getCanvasLeftX() {
-        return canvasLeftX;
+    public int getCanvasX() {
+        return canvasX;
     }
 
-    public int getCanvasTopY() {
-        return canvasTopY;
+    public int getCanvasY() {
+        return canvasY;
     }
 
     public String getText() {
         return text;
+    }
+
+    public void setCanvasX( int canvasX ) {
+        this.canvasX = canvasX;
+    }
+
+    public void setCanvasY( int canvasY ) {
+        this.canvasY = canvasY;
     }
 
     @Override
@@ -65,8 +73,8 @@ public class TextObjectInfo {
         return "TextObjectInfo{" +
                 "re=" + re +
                 ", im=" + im +
-                ", canvasLeftX=" + canvasLeftX +
-                ", canvasTopY=" + canvasTopY +
+                ", canvasX=" + canvasX +
+                ", canvasY=" + canvasY +
                 ", text='" + text + '\'' +
                 '}';
     }

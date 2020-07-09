@@ -4,15 +4,15 @@ public class TextObjectInfo {
 
     private final double re;
     private final double im;
-    private final int canvasLeftX;
-    private final int canvasTopY;
+    private final int canvasX;
+    private final int canvasY;
     private final String text;
 
-    public TextObjectInfo( double re, double im, int canvasLeftX, int canvasTopY, String text ) {
+    public TextObjectInfo( double re, double im, int canvasX, int canvasY, String text ) {
         this.re = re;
         this.im = im;
-        this.canvasLeftX = canvasLeftX;
-        this.canvasTopY = canvasTopY;
+        this.canvasX = canvasX;
+        this.canvasY = canvasY;
         this.text = text;
     }
 
@@ -24,12 +24,12 @@ public class TextObjectInfo {
         return im;
     }
 
-    public int getCanvasLeftX() {
-        return canvasLeftX;
+    public int getCanvasX() {
+        return canvasX;
     }
 
-    public int getCanvasTopY() {
-        return canvasTopY;
+    public int getCanvasY() {
+        return canvasY;
     }
 
     public String getText() {

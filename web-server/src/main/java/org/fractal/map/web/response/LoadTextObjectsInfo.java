@@ -11,7 +11,7 @@ public class LoadTextObjectsInfo extends AbstractInfo {
         return textObjects;
     }
 
-    public void addTextObject( double re, double im, int canvasLeftX, int canvasTopY, String text ) {
-        textObjects.add( new TextObjectInfo( re, im, canvasLeftX, canvasTopY, text ) );
+    public void addTextObject( double re, double im, int canvasX, int canvasY, String text ) {
+        textObjects.add( new TextObjectInfo( re, im, canvasX, canvasY, text ) );
     }
 }

@@ -24,6 +24,9 @@ public class MessagesRegistrator {
 
     public static final int RESPONSE_CALC_ERROR = 100;
 
+    private MessagesRegistrator() {
+    }
+
     public static void registerMessages() {
         TransportableFactory.registerClass( REQUEST_POINT_COORDS, PointCoordsRequest.class );
         TransportableFactory.registerClass( RESPONSE_POINT_COORDS, PointCoordsResponse.class );
