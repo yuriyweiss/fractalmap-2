@@ -23,16 +23,20 @@ public class CalcDispatcherRequestController {
     private SquaresPartitionMethod squaresPartitionMethod;
     private GetSquareMethod getSquareMethod;
     private GetPointCoordsMethod getPointCoordsMethod;
+    private LoadTextObjectsMethod loadTextObjectsMethod;
 
     @Autowired
-    public CalcDispatcherRequestController( WebServerTransceiverClient webServerTransceiverClient,
+    public CalcDispatcherRequestController(
+            WebServerTransceiverClient webServerTransceiverClient,
             SquaresPartitionMethod squaresPartitionMethod,
             GetSquareMethod getSquareMethod,
-            GetPointCoordsMethod getPointCoordsMethod ) {
+            GetPointCoordsMethod getPointCoordsMethod,
+            LoadTextObjectsMethod loadTextObjectsMethod ) {
         this.webServerTransceiverClient = webServerTransceiverClient;
         this.squaresPartitionMethod = squaresPartitionMethod;
         this.getSquareMethod = getSquareMethod;
         this.getPointCoordsMethod = getPointCoordsMethod;
+        this.loadTextObjectsMethod = loadTextObjectsMethod;
     }
 
     @GetMapping( path = "/initialize-form" )
@@ -62,13 +66,13 @@ public class CalcDispatcherRequestController {
             @RequestParam( name = "layerIndex" ) int layerIndex,
             HttpSession httpSession ) {
         // return if session does not exist, form must be initialized
-        if (httpSession.isNew()) {
+        if ( httpSession.isNew() ) {
             return;
         }
 
-        httpSession.setAttribute(Names.CENTER_RE, re);
-        httpSession.setAttribute(Names.CENTER_IM, im);
-        httpSession.setAttribute(Names.CURRENT_LAYER_INDEX, layerIndex);
+        httpSession.setAttribute( Names.CENTER_RE, re );
+        httpSession.setAttribute( Names.CENTER_IM, im );
+        httpSession.setAttribute( Names.CURRENT_LAYER_INDEX, layerIndex );
     }
 
     @GetMapping( path = "/squares-partition" )
@@ -102,5 +106,16 @@ public class CalcDispatcherRequestController {
         requestParams.put( Names.SHIFT_X, shiftX );
         requestParams.put( Names.SHIFT_Y, shiftY );
         return getPointCoordsMethod.processGetRequest( requestParams, httpSession, webServerTransceiverClient );
+    }
+
+    @GetMapping( path = "/load-text-objects" )
+    public AbstractInfo loadTextObjects(
+            @RequestParam( name = "areaWidth" ) int areaWidth,
+            @RequestParam( name = "areaHeight" ) int areaHeight,
+            HttpSession httpSession ) {
+        Map<String, Object> requestParams = new HashMap<>();
+        requestParams.put( Names.AREA_WIDTH, areaWidth );
+        requestParams.put( Names.AREA_HEIGHT, areaHeight );
+        return loadTextObjectsMethod.processGetRequest( requestParams, httpSession, webServerTransceiverClient );
     }
 }
