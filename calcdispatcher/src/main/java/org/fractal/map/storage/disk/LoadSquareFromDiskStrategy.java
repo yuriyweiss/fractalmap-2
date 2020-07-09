@@ -34,10 +34,12 @@ public class LoadSquareFromDiskStrategy implements LoadSquareStrategy {
 
     @Override
     public byte[] loadSquareBody( Square square ) throws Exception {
-        if ( square.getIterations() != Constants.ITERATIONS_DIFFER ) return null;
+        if ( square.getIterations() != Constants.ITERATIONS_DIFFER ) {
+            return new byte[] {};
+        }
 
         FileSystemHelper fsHelper = new FileSystemHelper( square, rootDir );
-        logger.debug( "loading file: " + fsHelper.getFileName() );
+        logger.debug( "loading file: {}", fsHelper.getFileName() );
         File squareFile = new File( fsHelper.getFileName() );
         if ( !squareFile.exists() ) throw new FileNotFoundException();
 

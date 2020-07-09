@@ -49,7 +49,9 @@ public class SquaresPartition {
                 square.calculatePoints( points );
                 int iterations = CalcUtils.getCommonIteration( points );
                 square.setIterations( iterations );
-                saveStrategy.save( square, points );
+                try {saveStrategy.save( square, points );} catch ( SqlException e ) {
+                    e.printStackTrace();
+                }
             }
         }
         logger.info( "squares calculation finished" );

@@ -1,6 +1,12 @@
 package org.fractal.map.storage.oracle;
 
-import static org.fractal.map.calc.Constants.ITERATIONS_DIFFER;
+import oracle.jdbc.OracleResultSet;
+import oracle.sql.BLOB;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.fractal.map.calc.CalcUtils;
+import org.fractal.map.calc.SaveSquareStrategy;
+import org.fractal.map.model.Square;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,14 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import oracle.jdbc.OracleResultSet;
-import oracle.sql.BLOB;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.fractal.map.calc.CalcUtils;
-import org.fractal.map.calc.SaveSquareStrategy;
-import org.fractal.map.model.Square;
+import static org.fractal.map.calc.Constants.ITERATIONS_DIFFER;
 
 public class SaveSquareToOracleStrategy implements SaveSquareStrategy {
 
@@ -33,7 +32,7 @@ public class SaveSquareToOracleStrategy implements SaveSquareStrategy {
     }
 
     @Override
-    public void save( Square square, int[][] points ) throws Exception {
+    public void save( Square square, int[][] points ) throws SQLException, IOException {
         this.points = points;
 
         int commonIteration = CalcUtils.getCommonIteration( points );
@@ -46,7 +45,7 @@ public class SaveSquareToOracleStrategy implements SaveSquareStrategy {
     }
 
     @Override
-    public void save( Square square, byte[] body ) throws Exception {
+    public void save( Square square, byte[] body ) throws SQLException, IOException {
         this.body = body;
 
         saveSquareToDB( square.getLayer().getLayerIndex(), square.getLeftRe(), square.getTopIm(),
@@ -58,7 +57,7 @@ public class SaveSquareToOracleStrategy implements SaveSquareStrategy {
     }
 
     private void saveSquareToDB( int layerIndex, double leftRe, double topIm, int iterations )
-            throws Exception {
+            throws SQLException {
         PreparedStatement stmt = null;
         try {
             String blobInit = ( iterations == ITERATIONS_DIFFER ) ? "empty_blob()" : "NULL";

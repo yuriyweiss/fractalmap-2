@@ -15,21 +15,21 @@ public class SaveSquareInfoToMySQLStrategy implements SaveSquareStrategy {
 
     private Connection conn;
 
-    public SaveSquareInfoToMySQLStrategy() throws Exception {
+    public SaveSquareInfoToMySQLStrategy() throws ReflectiveOperationException, SQLException {
         this.conn = ConnectionPool.getInstance().getConnection();
     }
 
     @Override
-    public void save( Square square, int[][] points ) throws Exception {
+    public void save( Square square, int[][] points ) throws SQLException {
         saveToDB( square );
     }
 
     @Override
-    public void save( Square square, byte[] body ) throws Exception {
+    public void save( Square square, byte[] body ) throws SQLException {
         saveToDB( square );
     }
 
-    private void saveToDB( Square square ) throws Exception {
+    private void saveToDB( Square square ) throws SQLException {
         saveSquareInfoToDB( square.getLayer().getLayerIndex(), square.getLeftRe(),
                 square.getTopIm(), square.getIterations() );
         try {
@@ -43,8 +43,7 @@ public class SaveSquareInfoToMySQLStrategy implements SaveSquareStrategy {
         }
     }
 
-    private void saveSquareInfoToDB( int layerIndex, double leftRe, double topIm, int iterations )
-            throws Exception {
+    private void saveSquareInfoToDB( int layerIndex, double leftRe, double topIm, int iterations ) throws SQLException {
         PreparedStatement stmt = null;
         try {
             // Ignore duplicate row error.

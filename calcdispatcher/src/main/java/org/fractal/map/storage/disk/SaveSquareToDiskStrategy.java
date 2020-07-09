@@ -10,6 +10,7 @@ import org.fractal.map.model.Square;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class SaveSquareToDiskStrategy implements SaveSquareStrategy {
 
@@ -26,7 +27,7 @@ public class SaveSquareToDiskStrategy implements SaveSquareStrategy {
     }
 
     @Override
-    public void save( Square square, int[][] points ) throws Exception {
+    public void save( Square square, int[][] points ) throws IOException {
         if ( square.getIterations() != Constants.ITERATIONS_DIFFER ) return;
 
         File squareFile = getSquareFile( square );
@@ -35,7 +36,7 @@ public class SaveSquareToDiskStrategy implements SaveSquareStrategy {
     }
 
     @Override
-    public void save( Square square, byte[] squareBody ) throws Exception {
+    public void save( Square square, byte[] squareBody ) throws IOException {
         if ( square.getIterations() != Constants.ITERATIONS_DIFFER ) return;
 
         File squareFile = getSquareFile( square );

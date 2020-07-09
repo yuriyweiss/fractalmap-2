@@ -16,19 +16,19 @@ import java.util.Properties;
 public class ConnectionPool {
 
     private PoolingDataSource<PoolableConnection> dataSource;
-    private ObjectPool<PoolableConnection> connectionPool;
+    private ObjectPool<PoolableConnection> connections;
 
     private static ConnectionPool instance = null;
 
-    public static ConnectionPool getInstance() throws Exception {
+    public static ConnectionPool getInstance() throws ReflectiveOperationException {
         if ( instance == null ) {
             instance = new ConnectionPool();
         }
         return instance;
     }
 
-    private ConnectionPool() throws Exception {
-        Class.forName( "org.mariadb.jdbc.Driver" ).newInstance();
+    private ConnectionPool() throws ReflectiveOperationException {
+        Class.forName( "org.mariadb.jdbc.Driver" ).newInstance(); // NOSONAR
 
         String connectionString = Configuration.getStorageMySQLConnectionString();
         Properties props = new Properties();
@@ -41,12 +41,12 @@ public class ConnectionPool {
                 new PoolableConnectionFactory( connectionFactory, null );
         poolableConnectionFactory.setDefaultAutoCommit( false );
 
-        connectionPool = new GenericObjectPool<>( poolableConnectionFactory );
-        ( ( GenericObjectPool<PoolableConnection> ) connectionPool ).setMaxTotal(
-                Configuration.getStorageMySQLConnectionPoolSize() );
-        poolableConnectionFactory.setPool( connectionPool );
+        connections = new GenericObjectPool<>( poolableConnectionFactory );
+        ( ( GenericObjectPool<PoolableConnection> ) connections )
+                .setMaxTotal( Configuration.getStorageMySQLConnectionPoolSize() );
+        poolableConnectionFactory.setPool( connections );
 
-        dataSource = new PoolingDataSource<>( connectionPool );
+        dataSource = new PoolingDataSource<>( connections );
     }
 
     public Connection getConnection() throws SQLException {
@@ -54,6 +54,6 @@ public class ConnectionPool {
     }
 
     public void close() {
-        connectionPool.close();
+        connections.close();
     }
 }

@@ -40,17 +40,13 @@ public class LoadSquareFromMySQLStrategy implements LoadSquareStrategy {
                 stmt.close();
                 stmt = null;
             }
-            if ( conn != null ) {
-                conn.close();
-                conn = null;
-            }
+            conn.close();
         }
     }
 
     @Override
     public byte[] loadSquareBody( Square square ) throws Exception {
-        // Body is not stored in MySQL.
-        return null;
+        throw new IllegalAccessException( "Body is not stored in MySQL." );
     }
 
 }
