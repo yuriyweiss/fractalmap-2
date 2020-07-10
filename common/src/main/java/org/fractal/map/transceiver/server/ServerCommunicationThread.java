@@ -2,7 +2,6 @@ package org.fractal.map.transceiver.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.fractal.map.conf.Configuration;
 import org.fractal.map.transceiver.CommunicationThread;
 import org.fractal.map.transceiver.iomethods.ClientUUIDExchange;
 import org.fractal.map.transceiver.iomethods.ReadMessagesMethod;
@@ -21,15 +20,19 @@ public class ServerCommunicationThread extends CommunicationThread {
 
     private static final Logger logger = LogManager.getLogger();
 
+    private static final String ERROR_STACKTRACE = "error stacktrace:";
+
     private final SocketChannel socketChannel;
+    private final int selectionMode;
+    private final int bufferSize;
     private UUID clientUUID = null;
-    private int selectionMode;
 
     public ServerCommunicationThread( TransceiverServer owner, SocketChannel socketChannel,
-            int selectionMode ) {
+            int selectionMode, int bufferSize ) {
         super( owner );
         this.socketChannel = socketChannel;
         this.selectionMode = selectionMode;
+        this.bufferSize = bufferSize;
     }
 
     private TransceiverServer getOwner() {
@@ -44,8 +47,8 @@ public class ServerCommunicationThread extends CommunicationThread {
     public void run() {
         logger.info( "communication thread started" );
         Selector selector = null;
-        ByteBuffer inputBuffer = ByteBuffer.allocate( Configuration.getTransceiverBufferSize() );
-        ByteBuffer outputBuffer = ByteBuffer.allocate( Configuration.getTransceiverBufferSize() );
+        ByteBuffer inputBuffer = ByteBuffer.allocate( bufferSize );
+        ByteBuffer outputBuffer = ByteBuffer.allocate( bufferSize );
         try {
             socketChannel.configureBlocking( true );
             clientUUID = ClientUUIDExchange.readClientUUID( socketChannel );
@@ -69,21 +72,21 @@ public class ServerCommunicationThread extends CommunicationThread {
                         if ( rr == -1 || rr == 0 ) break transceiver_loop; // end-of-stream
                         new ReadMessagesMethod( this, inputBuffer ).execute();
                     } else if ( key.isWritable() ) {
-                        if ( getMessages().size() == 0 ) {
+                        if ( getMessages().isEmpty() ) {
                             ThreadUtils.sleep( 50 );
                         } else {
-                            new WriteMessagesMethod( getMessages(), socketChannel, outputBuffer )
+                            new WriteMessagesMethod( getMessages(), socketChannel, outputBuffer, bufferSize )
                                     .execute();
                         }
                     }
                 }
             }
         } catch ( RuntimeException e ) {
-            logger.error( "runtime error: " + e.getMessage() );
-            logger.debug( "error stack: ", e );
+            logger.error( "runtime error: {}", e.getMessage() );
+            logger.debug( ERROR_STACKTRACE, e );
         } catch ( IOException e ) {
-            logger.error( "network failure: " + e.getMessage() );
-            logger.debug( "error stack: ", e );
+            logger.error( "network failure: {}", e.getMessage() );
+            logger.debug( ERROR_STACKTRACE, e );
         } finally {
             getOwner().unregisterWorker( selectionMode, clientUUID, this );
             logger.info( "releasing resources" );
@@ -95,8 +98,8 @@ public class ServerCommunicationThread extends CommunicationThread {
                     selector = null;
                 }
             } catch ( IOException e ) {
-                logger.warn( "disconnection failed: " + e.getMessage() );
-                logger.debug( "error stack: ", e );
+                logger.warn( "disconnection failed: {}", e.getMessage() );
+                logger.debug( ERROR_STACKTRACE, e );
             }
         }
         stopped = true;

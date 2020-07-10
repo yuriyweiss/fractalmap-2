@@ -38,8 +38,11 @@ public class Client {
         String ipAddress = "127.0.0.1";
         // Flip read/write ports to connect to server.
         TransceiverClient transceiverClient =
-                new TransceiverClient( Configuration.getTransceiverWritePort(), Configuration.getTransceiverReadPort(),
-                        ipAddress );
+                new TransceiverClient( Configuration.getTransceiverWritePort(),
+                        Configuration.getTransceiverReadPort(),
+                        ipAddress,
+                        Configuration.getTransceiverBufferSize(),
+                        Configuration.getTransceiverErrorIntervalSeconds() );
         transceiverClient.setMessageProcessor( new DummyClientMessageProcessor() );
         transceiverClient.start();
 

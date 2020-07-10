@@ -14,7 +14,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-@SpringBootApplication
+@SpringBootApplication( scanBasePackages = { "org.fractal.map.web" } )
 public class WebServerApplication extends SpringBootServletInitializer {
 
     private static final Logger LOG = LoggerFactory.getLogger( WebServerApplication.class );

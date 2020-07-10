@@ -29,7 +29,7 @@ public abstract class ServletMessage extends Transportable {
 
     @Override
     public int estimateLength() {
-        int result = HEADER_LENGTH;
+        int result = Transportable.HEADER_LENGTH;
         result += 2 * 8; // requestUUID = 2 long
         return result;
     }

@@ -17,8 +17,10 @@ public class WebServerTransceiverClient {
     public WebServerTransceiverClient(
             @Value( "${calcdisp.ip.address}" ) String ipAddress,
             @Value( "${calcdisp.read.port}" ) int readPort,
-            @Value( "${calcdisp.write.port}" ) int writePort ) {
-        transceiverClient = new TransceiverClient( readPort, writePort, ipAddress );
+            @Value( "${calcdisp.write.port}" ) int writePort,
+            @Value( "${calcdisp.buffer.size}" ) int bufferSize,
+            @Value( "${calcdisp.error.interval.seconds}" ) int errorIntervalSeconds ) {
+        transceiverClient = new TransceiverClient( readPort, writePort, ipAddress, bufferSize, errorIntervalSeconds );
         transceiverClient.setMessageProcessor( new ResponseMessageProcessor() );
     }
 

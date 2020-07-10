@@ -25,7 +25,9 @@ public class Server {
 
         transceiverServer =
                 new TransceiverServer( Configuration.getTransceiverReadPort(),
-                        Configuration.getTransceiverWritePort() );
+                        Configuration.getTransceiverWritePort(),
+                        Configuration.getTransceiverBufferSize(),
+                        Configuration.getTransceiverErrorIntervalSeconds() );
         transceiverServer.setMessageProcessor( new DummyServerMessageProcessor( transceiverServer ) );
         transceiverServer.start();
 

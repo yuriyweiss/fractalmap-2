@@ -26,15 +26,15 @@ public class TransceiverServer extends Transceiver {
 
     private volatile boolean disabled = false;
 
-    public TransceiverServer( int readPort, int writePort ) {
-        super( readPort, writePort );
+    public TransceiverServer( int readPort, int writePort, int bufferSize, int errorIntervalSeconds ) {
+        super( readPort, writePort, bufferSize, errorIntervalSeconds );
     }
 
     @Override
     public void start() {
-        readAcceptor = new ServerSocketThread( this, SelectionKey.OP_READ );
+        readAcceptor = new ServerSocketThread( this, SelectionKey.OP_READ, getErrorIntervalSeconds() );
         readAcceptor.start();
-        writeAcceptor = new ServerSocketThread( this, SelectionKey.OP_WRITE );
+        writeAcceptor = new ServerSocketThread( this, SelectionKey.OP_WRITE, getErrorIntervalSeconds() );
         writeAcceptor.start();
     }
 
@@ -74,7 +74,7 @@ public class TransceiverServer extends Transceiver {
 
     public void createNewWorker( int selectionMode, SocketChannel socketChannel ) {
         ServerCommunicationThread worker =
-                new ServerCommunicationThread( this, socketChannel, selectionMode );
+                new ServerCommunicationThread( this, socketChannel, selectionMode, getBufferSize() );
         synchronized ( this ) {
             if ( selectionMode == SelectionKey.OP_READ ) {
                 readers.add( worker );
@@ -92,12 +92,10 @@ public class TransceiverServer extends Transceiver {
 
     public synchronized void linkClientToWorker( int selectionMode, UUID clientUUID,
             ServerCommunicationThread worker ) {
-        ServerThreadsTuple tuple = clientsToWorkersMap.get( clientUUID );
-        if ( tuple == null ) {
-            logger.info( "registering new client: {}", clientUUID );
-            tuple = new ServerThreadsTuple();
-            clientsToWorkersMap.put( clientUUID, tuple );
-        }
+        ServerThreadsTuple tuple = clientsToWorkersMap.computeIfAbsent( clientUUID, key -> {
+            logger.info( "registering new client: {}", key );
+            return new ServerThreadsTuple();
+        } );
         tuple.setWorker( selectionMode, worker );
     }
 

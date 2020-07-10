@@ -55,4 +55,19 @@ public class Layer implements Comparable<Layer> {
     public int compareTo( Layer other ) {
         return Integer.compare( layerIndex, other.getLayerIndex() );
     }
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) return true;
+        if ( o == null || getClass() != o.getClass() ) return false;
+
+        Layer layer = ( Layer ) o;
+
+        return layerIndex == layer.layerIndex;
+    }
+
+    @Override
+    public int hashCode() {
+        return layerIndex;
+    }
 }

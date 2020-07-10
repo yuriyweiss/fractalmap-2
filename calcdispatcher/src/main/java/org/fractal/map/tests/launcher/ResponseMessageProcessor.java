@@ -37,21 +37,19 @@ public class ResponseMessageProcessor implements MessageProcessor {
 
         ServletMessage response = ( ServletMessage ) message;
         waiters.onResponseArrived( response.getRequestUUID(), response );
-        logger.debug( "response arrived: " + response );
-        switch ( response.getClassId() ) {
-            case MessagesRegistrator.RESPONSE_POINT_COORDS:
-                processPointCoordsResponse( ( PointCoordsResponse ) response );
-                break;
-            case MessagesRegistrator.RESPONSE_AREA_SQUARE_PARTITION:
-                processAreaSquarePartitionResponse( ( AreaSquarePartitionResponse ) response );
-                break;
+        logger.debug( "response arrived: {}", response );
+        int classId = response.getClassId();
+        if ( classId == MessagesRegistrator.RESPONSE_POINT_COORDS ) {
+            processPointCoordsResponse( ( PointCoordsResponse ) response );
+        } else if ( classId == MessagesRegistrator.RESPONSE_AREA_SQUARE_PARTITION ) {
+            processAreaSquarePartitionResponse( ( AreaSquarePartitionResponse ) response );
         }
     }
 
     private void processPointCoordsResponse( PointCoordsResponse response ) {
         AreaSquarePartitionRequest request =
                 new AreaSquarePartitionRequest( UUID.randomUUID(), 5, response.getRe(), response.getIm(), 1024, 768 );
-        logger.debug( "sending request: " + request );
+        logger.debug( "sending request: {}", request );
         waiters.put( request.getRequestUUID(), new DummyWaiter() );
         transceiverClient.send( request );
     }
@@ -61,7 +59,7 @@ public class ResponseMessageProcessor implements MessageProcessor {
         for ( SquareInfo squareInfo : squares ) {
             SquareRequest request =
                     new SquareRequest( UUID.randomUUID(), 5, squareInfo.getLeftRe(), squareInfo.getTopIm() );
-            logger.debug( "sending request: " + request );
+            logger.debug( "sending request: {}", request );
             waiters.put( request.getRequestUUID(), new DummyWaiter() );
             transceiverClient.send( request );
         }

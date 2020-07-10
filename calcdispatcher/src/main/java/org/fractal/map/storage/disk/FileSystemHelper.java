@@ -35,7 +35,7 @@ public class FileSystemHelper {
             result.add( "000" );
         } else {
             long remainder = squareIndex;
-            long divided = squareIndex;
+            long divided;
             do {
                 maxThousandPower /= 1000;
                 divided = remainder / maxThousandPower;
@@ -58,19 +58,19 @@ public class FileSystemHelper {
     }
 
     private String buildDirName( List<String> dirStructure ) {
-        String result = rootDir;
+        StringBuilder result = new StringBuilder( rootDir );
         for ( String dirName : dirStructure ) {
-            result += "/" + dirName;
+            result.append( "/" ).append( dirName );
         }
-        return result;
+        return result.toString();
     }
 
     public void createDirectories() {
-        String currentDirName = rootDir;
+        StringBuilder currentDirName = new StringBuilder( rootDir );
         for ( String dirName : dirStructure ) {
-            currentDirName += "/" + dirName;
-            if ( !isDirExists( currentDirName ) ) {
-                File newDir = new File( currentDirName );
+            currentDirName.append( "/" ).append( dirName );
+            if ( !isDirExists( currentDirName.toString() ) ) {
+                File newDir = new File( currentDirName.toString() );
                 newDir.mkdir();
             }
         }

@@ -1,15 +1,16 @@
 package org.fractal.map.launcher;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
-public class ApplicationContextHolder implements ApplicationContextAware {
+public class ApplicationContextHolder {
 
     private static ApplicationContext applicationContext;
 
-    @Override
-    public void setApplicationContext( ApplicationContext applicationContext ) {
-        org.fractal.map.launcher.ApplicationContextHolder.applicationContext = applicationContext; // NOSONAR
+    private ApplicationContextHolder() {
+    }
+
+    public static void setApplicationContext( ApplicationContext context ) {
+        applicationContext = context;
     }
 
     public static ApplicationContext getApplicationContext() {

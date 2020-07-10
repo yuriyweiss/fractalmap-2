@@ -14,6 +14,9 @@ import static org.fractal.map.calc.Constants.SQUARE_SIDE_SIZE;
 
 public class CalcUtils {
 
+    private CalcUtils() {
+    }
+
     public static void initPointsNeedCalculation( int[][] points ) {
         for ( int y = 0; y < SQUARE_SIDE_SIZE; y++ ) {
             for ( int x = 0; x < SQUARE_SIDE_SIZE; x++ ) {

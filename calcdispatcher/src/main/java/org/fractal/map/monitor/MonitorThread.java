@@ -87,6 +87,7 @@ public class MonitorThread extends StoppableThread {
                 updateKpis();
                 logKpiValues();
             } catch ( InterruptedException e ) {
+                Thread.currentThread().interrupt();
             }
         }
         stopped = true;
@@ -100,33 +101,35 @@ public class MonitorThread extends StoppableThread {
     }
 
     private void logKpiValues() {
-        logger.info( "------------------------------------------------------------" );
-        if ( ( loggingMode & MonitorLoggingMode.CALC ) != 0 ) {
-            logger.info( String.format( "AVG calc time millis:  square = %f, point = %f",
-                    avgSquareCalcTimeKpi.getValue(), avgPointCalcTimeKpi.getValue() ) );
-            logger.info( String.format( "AVG points in square = %d, AVG iter by set point = %d",
-                    avgCalcPointsInSquareKpi.getValue(), avgIterationsBySetPointKpi.getValue() ) );
-            logger.info( String.format( "TOTAL SQUARES processed = %d (guessed = %d), total = %d",
-                    totalProcessedSquaresKpi.getValue(), totalGuessedSquaresKpi.getValue(),
-                    totalSquaresToCalculateKpi.getValue() ) );
-            logger.info( String.format( "TOTAL calc set points = %d",
-                    totalCalcSetPointsKpi.getValue() ) );
-            logger.info( String.format( "PER 5 SECONDS calc squares = %d, points = %d",
-                    squaresPerFiveSecondsKpi.getValue(), pointsPerFiveSecondsKpi.getValue() ) );
-            logger.info( String.format( "TOTAL time seconds = %f",
-                    totalCalculationTimeInSecondsKpi.getValue() ) );
+        if ( logger.isInfoEnabled() ) {
+            logger.info( "------------------------------------------------------------" );
+            if ( ( loggingMode & MonitorLoggingMode.CALC ) != 0 ) {
+                logger.info( String.format( "AVG calc time millis:  square = %f, point = %f",
+                        avgSquareCalcTimeKpi.getValue(), avgPointCalcTimeKpi.getValue() ) );
+                logger.info( String.format( "AVG points in square = %d, AVG iter by set point = %d",
+                        avgCalcPointsInSquareKpi.getValue(), avgIterationsBySetPointKpi.getValue() ) );
+                logger.info( String.format( "TOTAL SQUARES processed = %d (guessed = %d), total = %d",
+                        totalProcessedSquaresKpi.getValue(), totalGuessedSquaresKpi.getValue(),
+                        totalSquaresToCalculateKpi.getValue() ) );
+                logger.info( String.format( "TOTAL calc set points = %d",
+                        totalCalcSetPointsKpi.getValue() ) );
+                logger.info( String.format( "PER 5 SECONDS calc squares = %d, points = %d",
+                        squaresPerFiveSecondsKpi.getValue(), pointsPerFiveSecondsKpi.getValue() ) );
+                logger.info( String.format( "TOTAL time seconds = %f",
+                        totalCalculationTimeInSecondsKpi.getValue() ) );
+            }
+            if ( ( loggingMode & MonitorLoggingMode.TRANSCEIVER ) != 0 ) {
+                logger.info( String.format( "TRANSCEIVER MESSGAES total = %d, per 5 seconds = %d",
+                        totalTransceiverMessagesKpi.getValue(),
+                        transceiverMessagesPerFiveSecondsKpi.getValue() ) );
+            }
+            // Log memory usage every time.
+            double totalMemMB = ( ( double ) Runtime.getRuntime().totalMemory() ) / 1024 / 1024;
+            double freeMemMB = ( ( double ) Runtime.getRuntime().freeMemory() ) / 1024 / 1024;
+            double usedMemMB = totalMemMB - freeMemMB;
+            logger.info( String.format( "MEMORY USAGE MB total: %6.1f; used: %6.1f; free: %6.1f",
+                    totalMemMB, usedMemMB, freeMemMB ) );
         }
-        if ( ( loggingMode & MonitorLoggingMode.TRANSCEIVER ) != 0 ) {
-            logger.info( String.format( "TRANSCEIVER MESSGAES total = %d, per 5 seconds = %d",
-                    totalTransceiverMessagesKpi.getValue(),
-                    transceiverMessagesPerFiveSecondsKpi.getValue() ) );
-        }
-        // Log memory usage every time.
-        double totalMemMB = ( ( double ) Runtime.getRuntime().totalMemory() ) / 1024 / 1024;
-        double freeMemMB = ( ( double ) Runtime.getRuntime().freeMemory() ) / 1024 / 1024;
-        double usedMemMB = totalMemMB - freeMemMB;
-        logger.info( String.format( "MEMORY USAGE MB total: %6.1f; used: %6.1f; free: %6.1f",
-                totalMemMB, usedMemMB, freeMemMB ) );
 
         logAdditionalKpis();
     }

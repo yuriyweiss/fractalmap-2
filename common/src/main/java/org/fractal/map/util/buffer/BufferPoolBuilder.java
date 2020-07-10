@@ -5,6 +5,9 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 
 public class BufferPoolBuilder {
 
+    private BufferPoolBuilder() {
+    }
+
     public static ObjectPool<Buffer> build( int bufferSize, int poolSize ) {
         GenericObjectPool<Buffer> result =
                 new GenericObjectPool<>( new BufferPoolObjectFactory( bufferSize ) );

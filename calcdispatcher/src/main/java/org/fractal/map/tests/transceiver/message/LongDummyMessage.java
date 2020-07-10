@@ -2,6 +2,7 @@ package org.fractal.map.tests.transceiver.message;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.fractal.map.exception.FatalFractalMapException;
 import org.fractal.map.transceiver.Transportable;
 import org.fractal.map.util.buffer.Buffer;
 
@@ -37,7 +38,7 @@ public class LongDummyMessage extends Transportable {
         } catch ( Exception e ) {
             int currPosition = inputBuffer.position();
             inputBuffer.position( currPosition + arrayLength );
-            throw new RuntimeException( "Long message buffer borrow exception.", e );
+            throw new FatalFractalMapException( "Long message buffer borrow exception.", e );
         }
         buffer.setUsedCount( arrayLength );
         inputBuffer.get( buffer.getBytes(), 0, arrayLength );

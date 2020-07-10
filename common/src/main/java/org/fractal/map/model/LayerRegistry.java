@@ -10,6 +10,9 @@ public class LayerRegistry {
 
     private static final Map<Integer, Layer> layers = new HashMap<>();
 
+    private LayerRegistry() {
+    }
+
     static {
         init();
     }
@@ -29,15 +32,15 @@ public class LayerRegistry {
     }
 
     private static void addLayer( int layerIndex, int iterations, long layerSideSize ) {
-        layers.put( new Integer( layerIndex ), new Layer( layerIndex, iterations, layerSideSize ) );
+        layers.put( layerIndex, new Layer( layerIndex, iterations, layerSideSize ) );
     }
 
     public static Layer getLayerByIndex( int layerIndex ) {
-        return layers.get( new Integer( layerIndex ) );
+        return layers.get( layerIndex );
     }
 
     public static List<Layer> getLayers() {
-        List<Layer> result = new ArrayList<Layer>();
+        List<Layer> result = new ArrayList<>();
         for ( Layer layer : layers.values() ) {
             result.add( layer );
         }

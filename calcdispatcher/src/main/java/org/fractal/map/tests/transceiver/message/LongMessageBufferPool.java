@@ -8,6 +8,9 @@ public class LongMessageBufferPool {
 
     private static ObjectPool<Buffer> bufferPool;
 
+    private LongMessageBufferPool() {
+    }
+
     public static void init( int bufferSize, int poolSize ) {
         bufferPool = BufferPoolBuilder.build( bufferSize, poolSize );
     }

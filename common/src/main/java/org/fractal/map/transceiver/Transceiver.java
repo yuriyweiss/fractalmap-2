@@ -6,6 +6,8 @@ public abstract class Transceiver {
 
     private final int readPort;
     private final int writePort;
+    private final int bufferSize;
+    private final int errorIntervalSeconds;
 
     private MessageProcessor messageProcessor = null;
 
@@ -13,9 +15,11 @@ public abstract class Transceiver {
 
     public abstract void stop();
 
-    public Transceiver( int readPort, int writePort ) {
+    public Transceiver( int readPort, int writePort, int bufferSize, int errorIntervalSeconds ) {
         this.readPort = readPort;
         this.writePort = writePort;
+        this.bufferSize = bufferSize;
+        this.errorIntervalSeconds = errorIntervalSeconds;
     }
 
     public void setMessageProcessor( MessageProcessor messageProcessor ) {
@@ -34,5 +38,13 @@ public abstract class Transceiver {
 
     public int getWritePort() {
         return writePort;
+    }
+
+    public int getBufferSize() {
+        return bufferSize;
+    }
+
+    public int getErrorIntervalSeconds() {
+        return errorIntervalSeconds;
     }
 }

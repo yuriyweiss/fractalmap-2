@@ -13,6 +13,7 @@ import org.fractal.map.model.Square;
 import org.fractal.map.storage.combined.CombinedLoadSquareStrategy;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.zip.GZIPInputStream;
@@ -90,12 +91,11 @@ public class SquaresComparator {
         logger.info( message );
     }
 
-    private static int[][] loadSquareOptimized( Square square ) throws Exception {
+    private static int[][] loadSquareOptimized( Square square ) throws IOException {
         return loadSquare( square, optimizedCalcLoadStrategy );
     }
 
-    private static int[][] loadSquare( Square square, LoadSquareStrategy loadStrategy )
-            throws Exception {
+    private static int[][] loadSquare( Square square, LoadSquareStrategy loadStrategy ) throws IOException {
         int[][] result;
 
         byte[] squareBody = loadStrategy.loadSquareBody( square );

@@ -1,5 +1,7 @@
 package org.fractal.map.transceiver.iomethods;
 
+import org.fractal.map.exception.FatalFractalMapException;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,6 +12,9 @@ import java.nio.channels.SocketChannel;
 import java.util.UUID;
 
 public class ClientUUIDExchange {
+
+    private ClientUUIDExchange() {
+    }
 
     public static void writeClientUUID( UUID clientUUID, SocketChannel socketChannel )
             throws IOException {
@@ -51,7 +56,7 @@ public class ClientUUIDExchange {
             result = ( UUID ) ois.readObject();
             ois.close();
         } catch ( ClassNotFoundException e ) {
-            throw new RuntimeException( "clientUUID decoding failed", e );
+            throw new FatalFractalMapException( "clientUUID decoding failed", e );
         }
 
         return result;

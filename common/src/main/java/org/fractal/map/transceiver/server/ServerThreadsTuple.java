@@ -8,6 +8,7 @@ public class ServerThreadsTuple {
     private ServerCommunicationThread writer = null;
 
     public ServerThreadsTuple() {
+        // for serialization
     }
 
     public boolean isEmpty() {

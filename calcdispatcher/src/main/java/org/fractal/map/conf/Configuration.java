@@ -22,16 +22,6 @@ public class Configuration {
     private static String storageDiskRootDir = null;
     private static int storageDiskBufferSize = 262144; // 256 Kb
 
-    private static int storageMySQLConnectionPoolSize = 10;
-    private static String storageMySQLConnectionString = null;
-    private static String storageMySQLConnectionUser = "fractalmap";
-    private static String storageMySQLConnectionPassword = "fractalmap";
-
-    private static int storageOracleConnectionPoolSize = 10;
-    private static String storageOracleConnectionString = null;
-    private static String storageOracleConnectionUser = "fractalmap";
-    private static String storageOracleConnectionPassword = "fractalmap";
-
     private static int layerIndex = 4;
     private static long layerSideSize = 65536;
     private static int iterationsCount = 5000;
@@ -47,6 +37,9 @@ public class Configuration {
 
     private static boolean squareOptimizationActive = false;
     private static int squareOptimizationSideSizeLimit = 16;
+
+    private Configuration() {
+    }
 
     public static void load( String fileName ) throws IOException, ParseException {
         Properties properties = new Properties();
@@ -69,24 +62,6 @@ public class Configuration {
         storageDiskRootDir = properties.getProperty( "storage.disk.root.dir", null );
         storageDiskBufferSize =
                 Integer.parseInt( properties.getProperty( "storage.disk.buffer.size", "262144" ) );
-
-        storageMySQLConnectionPoolSize =
-                Integer.parseInt( properties.getProperty( "storage.mysql.connection.pool.size", "10" ) );
-        storageMySQLConnectionString =
-                properties.getProperty( "storage.mysql.connection.string", null );
-        storageMySQLConnectionUser =
-                properties.getProperty( "storage.mysql.connection.user", "fractalmap" );
-        storageMySQLConnectionPassword =
-                properties.getProperty( "storage.mysql.connection.password", "fractalmap" );
-
-        storageOracleConnectionPoolSize =
-                Integer.parseInt( properties.getProperty( "storage.oracle.connection.pool.size", "10" ) );
-        storageOracleConnectionString =
-                properties.getProperty( "storage.oracle.connection.string", null );
-        storageOracleConnectionUser =
-                properties.getProperty( "storage.oracle.connection.user", "fractalmap" );
-        storageOracleConnectionPassword =
-                properties.getProperty( "storage.oracle.connection.password", "fractalmap" );
 
         layerIndex = Integer.parseInt( properties.getProperty( "layer.index", "4" ) );
         layerSideSize = Integer.parseInt( properties.getProperty( "layer.side.size", "65536" ) );
@@ -124,16 +99,6 @@ public class Configuration {
 
         logger.info( "storage.disk.root.dir: {}", storageDiskRootDir );
         logger.info( "storage.disk.buffer.size: {}", storageDiskBufferSize );
-
-        logger.info( "storage.mysql.connection.pool.size: {}", storageMySQLConnectionPoolSize );
-        logger.info( "storage.mysql.connection.string: {}", storageMySQLConnectionString );
-        logger.info( "storage.mysql.connection.user: {}", storageMySQLConnectionUser );
-        logger.info( "storage.mysql.connection.password: {}", storageMySQLConnectionPassword );
-
-        logger.info( "storage.oracle.connection.pool.size: {}", storageOracleConnectionPoolSize );
-        logger.info( "storage.oracle.connection.string: {}", storageOracleConnectionString );
-        logger.info( "storage.oracle.connection.user: {}", storageOracleConnectionUser );
-        logger.info( "storage.oracle.connection.password: {}", storageOracleConnectionPassword );
 
         logger.info( "layer.index: {}", layerIndex );
         logger.info( "layer.side.size: {}", layerSideSize );
@@ -200,18 +165,6 @@ public class Configuration {
         return squareOptimizationSideSizeLimit;
     }
 
-    public static String getStorageOracleConnectionString() {
-        return storageOracleConnectionString;
-    }
-
-    public static String getStorageOracleConnectionUser() {
-        return storageOracleConnectionUser;
-    }
-
-    public static String getStorageOracleConnectionPassword() {
-        return storageOracleConnectionPassword;
-    }
-
     public static int getTransceiverBufferSize() {
         return transceiverBufferSize;
     }
@@ -234,25 +187,5 @@ public class Configuration {
 
     public static int getStorageDiskBufferSize() {
         return storageDiskBufferSize;
-    }
-
-    public static String getStorageMySQLConnectionString() {
-        return storageMySQLConnectionString;
-    }
-
-    public static String getStorageMySQLConnectionUser() {
-        return storageMySQLConnectionUser;
-    }
-
-    public static String getStorageMySQLConnectionPassword() {
-        return storageMySQLConnectionPassword;
-    }
-
-    public static int getStorageMySQLConnectionPoolSize() {
-        return storageMySQLConnectionPoolSize;
-    }
-
-    public static int getStorageOracleConnectionPoolSize() {
-        return storageOracleConnectionPoolSize;
     }
 }

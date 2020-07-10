@@ -7,6 +7,9 @@ public class Context {
     private static final BaseCountersContext baseCounters = new BaseCountersContext();
     private static SquaresPartition squaresPartition;
 
+    private Context() {
+    }
+
     public static BaseCountersContext getBaseCounters() {
         return baseCounters;
     }

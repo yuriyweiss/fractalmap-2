@@ -4,6 +4,9 @@ import org.fractal.map.conf.Configuration;
 
 public class SquareCalculatorFactory {
 
+    private SquareCalculatorFactory() {
+    }
+
     public static AbstractSquareCalculator createCalculator( int[][] originalPoints, int leftIndex,
             int topIndex, int sideSize, double leftRe, double topIm, double width,
             AbstractSquareCalculator parent ) {

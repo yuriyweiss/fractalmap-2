@@ -10,6 +10,9 @@ public class RequestsCache {
 
     private static final WaitersCache waiters = new WaitersCache( 15 );
 
+    private RequestsCache() {
+    }
+
     public static void registerWaiter( UUID requestUUID, ResponseWaiter waiter ) {
         waiters.put( requestUUID, waiter );
     }

@@ -14,6 +14,7 @@ import org.fractal.map.transceiver.server.TransceiverServer;
 import org.fractal.map.util.ThreadUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.annotation.PostConstruct;
@@ -36,7 +37,9 @@ public class CalcDispatcher {
     private ThreadPoolExecutor squareExecutor;
 
     public static void main( String[] args ) {
-        SpringApplication.run( CalcDispatcher.class, args );
+        ApplicationContext applicationContext = SpringApplication.run( CalcDispatcher.class, args );
+        ApplicationContextHolder.setApplicationContext( applicationContext );
+        logger.info( "application started" );
     }
 
     @PostConstruct
@@ -55,7 +58,9 @@ public class CalcDispatcher {
 
         transceiverServer =
                 new TransceiverServer( Configuration.getTransceiverReadPort(),
-                        Configuration.getTransceiverWritePort() );
+                        Configuration.getTransceiverWritePort(),
+                        Configuration.getTransceiverBufferSize(),
+                        Configuration.getTransceiverErrorIntervalSeconds() );
         transceiverServer.setMessageProcessor(
                 new IncomingMessageProcessor( calcExecutor, squareExecutor, transceiverServer ) );
         transceiverServer.start();

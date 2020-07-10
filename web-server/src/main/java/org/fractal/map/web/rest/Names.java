@@ -12,4 +12,7 @@ public class Names {
     public static final String AREA_HEIGHT = "areaHeight";
     public static final String SHIFT_X = "shiftX";
     public static final String SHIFT_Y = "shiftY";
+
+    private Names() {
+    }
 }

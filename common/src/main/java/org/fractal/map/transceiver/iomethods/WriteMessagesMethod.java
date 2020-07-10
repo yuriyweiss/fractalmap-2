@@ -2,7 +2,6 @@ package org.fractal.map.transceiver.iomethods;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.fractal.map.conf.Configuration;
 import org.fractal.map.transceiver.Transportable;
 
 import java.io.IOException;
@@ -23,11 +22,11 @@ public class WriteMessagesMethod {
     private final int bufferCapacity;
 
     public WriteMessagesMethod( BlockingQueue<Transportable> messages, SocketChannel socketChannel,
-            ByteBuffer outputBuffer ) {
+            ByteBuffer outputBuffer, int bufferSize ) {
         this.messages = messages;
         this.socketChannel = socketChannel;
         this.outputBuffer = outputBuffer;
-        this.bufferCapacity = Configuration.getTransceiverBufferSize();
+        this.bufferCapacity = bufferSize;
     }
 
     public void execute() throws IOException {

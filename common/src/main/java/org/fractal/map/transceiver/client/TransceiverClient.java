@@ -13,16 +13,19 @@ public class TransceiverClient extends Transceiver {
     private ClientCommunicationThread reader;
     private ClientCommunicationThread writer;
 
-    public TransceiverClient( int readPort, int writePort, String ipAddress ) {
-        super( readPort, writePort );
+    public TransceiverClient( int readPort, int writePort, String ipAddress, int bufferSize,
+            int errorIntervalSeconds ) {
+        super( readPort, writePort, bufferSize, errorIntervalSeconds );
         this.ipAddress = ipAddress;
     }
 
     @Override
     public void start() {
-        reader = new ClientCommunicationThread( SelectionKey.OP_READ, this );
+        reader = new ClientCommunicationThread( SelectionKey.OP_READ, this, getBufferSize(),
+                getErrorIntervalSeconds() );
         reader.start();
-        writer = new ClientCommunicationThread( SelectionKey.OP_WRITE, this );
+        writer = new ClientCommunicationThread( SelectionKey.OP_WRITE, this, getBufferSize(),
+                getErrorIntervalSeconds() );
         writer.start();
     }
 

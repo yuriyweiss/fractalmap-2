@@ -69,7 +69,6 @@ public class CalcDispatcherRequestController {
         if ( httpSession.isNew() ) {
             return;
         }
-
         httpSession.setAttribute( Names.CENTER_RE, re );
         httpSession.setAttribute( Names.CENTER_IM, im );
         httpSession.setAttribute( Names.CURRENT_LAYER_INDEX, layerIndex );

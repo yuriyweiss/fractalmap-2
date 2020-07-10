@@ -13,4 +13,7 @@ public class Constants {
     public static final int POINT_NEEDS_CALC = -2;
 
     public static final int ITERATIONS_DIFFER = -2;
+
+    private Constants() {
+    }
 }

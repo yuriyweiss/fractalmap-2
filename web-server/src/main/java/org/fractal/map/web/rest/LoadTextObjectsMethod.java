@@ -8,11 +8,13 @@ import org.fractal.map.transceiver.Transportable;
 import org.fractal.map.web.ServletError;
 import org.fractal.map.web.response.AbstractInfo;
 import org.fractal.map.web.response.LoadTextObjectsInfo;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.UUID;
 
+@Component
 public class LoadTextObjectsMethod extends AbstractResponseWaitingMethod {
 
     @Override

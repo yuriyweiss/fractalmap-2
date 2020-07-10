@@ -2,7 +2,6 @@ package org.fractal.map.transceiver.client;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.fractal.map.conf.Configuration;
 import org.fractal.map.transceiver.CommunicationThread;
 import org.fractal.map.transceiver.iomethods.ClientUUIDExchange;
 import org.fractal.map.transceiver.iomethods.ReadMessagesMethod;
@@ -21,11 +20,18 @@ public class ClientCommunicationThread extends CommunicationThread {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private int selectionMode;
+    private static final String ERROR_STACKTRACE = "error stacktrace:";
 
-    public ClientCommunicationThread( int selectionMode, TransceiverClient owner ) {
+    private final int selectionMode;
+    private final int bufferSize;
+    private final int errorIntervalSeconds;
+
+    public ClientCommunicationThread( int selectionMode, TransceiverClient owner, int bufferSize,
+            int errorIntervalSeconds ) {
         super( owner );
         this.selectionMode = selectionMode;
+        this.bufferSize = bufferSize;
+        this.errorIntervalSeconds = errorIntervalSeconds;
     }
 
     private TransceiverClient getOwner() {
@@ -63,10 +69,8 @@ public class ClientCommunicationThread extends CommunicationThread {
                 selector = Selector.open();
                 socketChannel.register( selector, selectionMode );
 
-                ByteBuffer inputBuffer =
-                        ByteBuffer.allocate( Configuration.getTransceiverBufferSize() );
-                ByteBuffer outputBuffer =
-                        ByteBuffer.allocate( Configuration.getTransceiverBufferSize() );
+                ByteBuffer inputBuffer = ByteBuffer.allocate( bufferSize );
+                ByteBuffer outputBuffer = ByteBuffer.allocate( bufferSize );
 
                 transceiver_loop:
                 while ( canRun() ) {
@@ -83,10 +87,10 @@ public class ClientCommunicationThread extends CommunicationThread {
                         } else if ( key.isWritable() ) {
                             // writable channel is always ready
                             // so if there is no messages in queue, wait some time to prevent 100% CPU load
-                            if ( getMessages().size() == 0 ) {
+                            if ( getMessages().isEmpty() ) {
                                 ThreadUtils.sleep( 50 );
                             } else {
-                                new WriteMessagesMethod( getMessages(), socketChannel, outputBuffer )
+                                new WriteMessagesMethod( getMessages(), socketChannel, outputBuffer, bufferSize )
                                         .execute();
                             }
                         }
@@ -95,18 +99,18 @@ public class ClientCommunicationThread extends CommunicationThread {
             } catch ( RuntimeException e ) {
                 error = true;
                 logger.error( "runtime error: {}", e.getMessage() );
-                logger.debug( "error stack: ", e );
+                logger.debug( ERROR_STACKTRACE, e );
             } catch ( IOException e ) {
                 error = true;
                 logger.error( "network failure: {}", e.getMessage() );
-                logger.debug( "error stack: ", e );
+                logger.debug( ERROR_STACKTRACE, e );
             } finally {
                 // disconnect at the end
                 try {
                     if ( socketChannel != null ) {
                         socketChannel.close();
                         socketChannel = null;
-                        logger.info( "disconnected from://{}:{}", getOwner().getIpAddress(), getPort() );
+                        logger.info( "disconnected from: //{}:{}", getOwner().getIpAddress(), getPort() );
                     }
                     if ( selector != null ) {
                         selector.close();
@@ -114,13 +118,12 @@ public class ClientCommunicationThread extends CommunicationThread {
                     }
                 } catch ( IOException e ) {
                     logger.warn( "disconnection failed", e );
-                    logger.debug( "error stack: ", e );
+                    logger.debug( ERROR_STACKTRACE, e );
                 }
                 if ( error ) {
                     try {
-                        int interval = Configuration.getTransceiverErrorIntervalSeconds();
-                        logger.info( "waiting {} seconds before resurrect attempt", interval );
-                        Thread.sleep( interval * 1000L );
+                        logger.info( "waiting {} seconds before resurrect attempt", errorIntervalSeconds );
+                        Thread.sleep( errorIntervalSeconds * 1000L );
                     } catch ( InterruptedException e ) {
                         Thread.currentThread().interrupt();
                     }
