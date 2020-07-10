@@ -1,0 +1,62 @@
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.99637613771119370000, 0.00000000000000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.96677321639292860000, 0.00000000000000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.90728009106530180000, 0.00000000000000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.77289290300000000000, 0.00000000000000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.75487766600000000000, 0.00000000000000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.47601464272843000000, 0.00000000000000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.28408492600000000000, -0.42726889600000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.28408492600000000000, 0.42726889600000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.13800066700000000000, -0.24033240130000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.13800066700000000000, 0.24033240130000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.99999999999999978000, 0.00000000000000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.59689164464511946000, -0.66298074457700618000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.59689164464511946000, 0.66298074457700618000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.21752674700000000000, -1.11445426600000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.21752674700000000000, 1.11445426600000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.16359826160000000000, -1.09778064300000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.16359826160000000000, 1.09778064300000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.12256116687664914000, -0.74486176661974901000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.12256116687664914000, 0.74486176661974901000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.11341865594943672000, -0.86056947250157301000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.11341865594943672000, 0.86056947250157301000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.01557038602000000000, -1.02049736600000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.01557038602000000000, 1.02049736600000000000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.35989273901285312000, -0.68476202021192401000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.35989273901285312000, 0.68476202021192401000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.38900684056976098000, -0.21585065087082397000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.38900684056976098000, 0.21585065087082397000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.39653457003241405000, -0.60418181048896835000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.39653457003241405000, 0.60418181048896835000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.44332563339984610000, -0.37296241666265229000, 2, '5');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.44332563339984610000, 0.37296241666265229000, 2, '5');

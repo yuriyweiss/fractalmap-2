@@ -1,0 +1,8 @@
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.75487766624669270000, 0.00000000000000000000, 1, '2');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.12256116687665361000, -0.74486176661974424000, 1, '2');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.12256116687665361000, 0.74486176661974424000, 1, '2');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.00000000000000000000, 0.00000000000000000000, 1, '2');

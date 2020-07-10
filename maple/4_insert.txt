@@ -1,0 +1,30 @@
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.98542425305466400000, 0.00000000000000000000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.86078252220400310000, 0.00000000000000000000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.62541372512376330000, 0.00000000000000000000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.25636793006814870000, -0.38032096347270689000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.25636793006814870000, 0.38032096347270689000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.50434017544624377000, -0.56276576145298196000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.50434017544624377000, 0.56276576145298196000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.19804209936425438000, -1.10026953729269850000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.19804209936425438000, 1.10026953729269850000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.04421235770406955300, -0.98658097628089247000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.04421235770406955300, 0.98658097628089247000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.35925922475800748000, -0.64251373713854232000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.35925922475800748000, 0.64251373713854232000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.37951358801592361000, -0.33493230559749765000, 2, '4');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.37951358801592361000, 0.33493230559749765000, 2, '4');

@@ -1,0 +1,16 @@
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.94079980652948250000, 0.00000000000000000000, 1, '3');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-1.31070264133683790000, 0.00000000000000000000, 1, '3');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.99999999999999656000, 0.00000000000000000000, 1, '3');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.15652016683375511000, -1.03224710892283180000, 1, '3');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(-0.15652016683375511000, 1.03224710892283180000, 1, '3');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.00000000000000000000, 0.00000000000000000000, 1, '3');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.28227139076691388000, -0.53006061757852541000, 1, '3');
+insert into `text_object`(`re`, `im`, `min_layer_index`, `text`)
+values(0.28227139076691388000, 0.53006061757852541000, 1, '3');
