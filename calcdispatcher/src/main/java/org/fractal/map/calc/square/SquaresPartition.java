@@ -1,7 +1,5 @@
 package org.fractal.map.calc.square;
 
-import static org.fractal.map.calc.Constants.SQUARE_SIDE_SIZE;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.fractal.map.calc.CalcUtils;
@@ -9,6 +7,10 @@ import org.fractal.map.calc.Constants;
 import org.fractal.map.calc.SaveSquareStrategy;
 import org.fractal.map.model.Layer;
 import org.fractal.map.model.Square;
+
+import java.io.IOException;
+
+import static org.fractal.map.calc.Constants.SQUARE_SIDE_SIZE;
 
 public class SquaresPartition {
 
@@ -39,7 +41,7 @@ public class SquaresPartition {
         logger.info( "partition squares initialized" );
     }
 
-    public void calculateAndSaveSquares( SaveSquareStrategy saveStrategy ) throws Exception {
+    public void calculateAndSaveSquares( SaveSquareStrategy saveStrategy ) {
         logger.info( "squares calculation started" );
         for ( int layerY = 0; layerY < squaresByY; layerY++ ) {
             for ( int layerX = 0; layerX < squaresByX; layerX++ ) {
@@ -49,8 +51,11 @@ public class SquaresPartition {
                 square.calculatePoints( points );
                 int iterations = CalcUtils.getCommonIteration( points );
                 square.setIterations( iterations );
-                try {saveStrategy.save( square, points );} catch ( SqlException e ) {
-                    e.printStackTrace();
+                try {
+                    saveStrategy.save( square, points );
+                } catch ( IOException e ) {
+                    logger.error( "squares save failed: {}", square );
+                    logger.debug( "error stacktrace:", e );
                 }
             }
         }

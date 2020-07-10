@@ -22,17 +22,13 @@ public class CalculationTask implements Runnable {
 
     @Override
     public void run() {
-        try {
-            logger.info( "FILE calculation task started" );
-            layer = prepareLayer();
-            Context.getBaseCounters().setSquaresToCalculate(
-                    layer.getSquaresBySide() * layer.getSquaresBySide() / 2 );
-            createSquaresPartition();
-            calculateSquares();
-            logger.info( "FILE calculation task finished" );
-        } catch ( Exception e ) {
-            logger.error( e.getMessage(), e );
-        }
+        logger.info( "FILE calculation task started" );
+        layer = prepareLayer();
+        Context.getBaseCounters().setSquaresToCalculate(
+                layer.getSquaresBySide() * layer.getSquaresBySide() / 2 );
+        createSquaresPartition();
+        calculateSquares();
+        logger.info( "FILE calculation task finished" );
     }
 
     private Layer prepareLayer() {
@@ -47,7 +43,7 @@ public class CalculationTask implements Runnable {
         Context.setSquaresPartition( squaresPartition );
     }
 
-    private void calculateSquares() throws Exception {
+    private void calculateSquares() {
         Context.getSquaresPartition().calculateAndSaveSquares(
                 new CombinedSaveSquareStrategy( rootDir ) );
     }

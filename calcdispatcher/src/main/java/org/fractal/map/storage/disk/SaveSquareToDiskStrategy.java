@@ -48,8 +48,7 @@ public class SaveSquareToDiskStrategy implements SaveSquareStrategy {
         FileSystemHelper fsHelper = new FileSystemHelper( square, rootDir );
         fsHelper.createDirectories();
         String fileName = fsHelper.getFileName();
-        logger.debug( "saving square body to file: " + fileName );
-        File squareFile = new File( fileName );
-        return squareFile;
+        logger.debug( "saving square body to file: {}", fileName );
+        return new File( fileName );
     }
 }

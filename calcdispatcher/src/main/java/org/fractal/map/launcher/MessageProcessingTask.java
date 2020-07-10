@@ -41,8 +41,10 @@ public class MessageProcessingTask implements Runnable {
                         new PointCoordsCalculator( ( PointCoordsRequest ) message.getBody() ).calculate();
                 break;
             case MessagesRegistrator.REQUEST_SQUARE:
-                LoadSquareStrategy loadStrategy = new CombinedLoadSquareStrategy();
-                SaveSquareStrategy saveStrategy = new CombinedSaveSquareStrategy();
+                LoadSquareStrategy loadStrategy =
+                        ApplicationContextHolder.getApplicationContext().getBean( CombinedLoadSquareStrategy.class );
+                SaveSquareStrategy saveStrategy =
+                        ApplicationContextHolder.getApplicationContext().getBean( CombinedSaveSquareStrategy.class );
                 response =
                         new SquareCalculator( ( SquareRequest ) message.getBody(), loadStrategy,
                                 saveStrategy ).calculate();

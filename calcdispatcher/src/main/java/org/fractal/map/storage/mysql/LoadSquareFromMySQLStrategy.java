@@ -1,52 +1,43 @@
 package org.fractal.map.storage.mysql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 import org.fractal.map.calc.LoadSquareStrategy;
 import org.fractal.map.model.Square;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LoadSquareFromMySQLStrategy implements LoadSquareStrategy {
 
+    private static final String SELECT_SQUARE_SQL = "select `iterations` from square " +
+            "where `layer_index` = ? and `left_re` = ? and `top_im` = ?";
+
+    private JdbcTemplate mysqlJdbcTemplate;
+
+    @Autowired
+    public LoadSquareFromMySQLStrategy( JdbcTemplate mysqlJdbcTemplate ) {
+        this.mysqlJdbcTemplate = mysqlJdbcTemplate;
+    }
+
     @Override
-    public Square loadSquare( int layerIndex, double leftRe, double topIm ) throws Exception {
-        Connection conn = ConnectionPool.getInstance().getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+    public Square loadSquare( final int layerIndex, final double leftRe, final double topIm ) {
+        Square square;
         try {
-            String sql =
-                    "select `iterations` from square " + "where `layer_index` = ? "
-                            + "and `left_re` = ? " + "and `top_im` = ?";
-            stmt = conn.prepareStatement( sql );
-            stmt.setInt( 1, layerIndex );
-            stmt.setDouble( 2, leftRe );
-            stmt.setDouble( 3, topIm );
-            rs = stmt.executeQuery();
-            if ( rs.next() ) {
-                int iterations = rs.getInt( 1 );
-                Square result = new Square( layerIndex, leftRe, topIm );
-                result.setIterations( iterations );
-                return result;
-            } else {
-                return null;
-            }
-        } finally {
-            if ( rs != null ) {
-                rs.close();
-                rs = null;
-            }
-            if ( stmt != null ) {
-                stmt.close();
-                stmt = null;
-            }
-            conn.close();
+            square = mysqlJdbcTemplate.queryForObject( SELECT_SQUARE_SQL, new Object[]{ layerIndex, leftRe, topIm },
+                    ( rs, rowNum ) -> {
+                        Square result = new Square( layerIndex, leftRe, topIm );
+                        result.setIterations( rs.getInt( "iterations" ) );
+                        return result;
+                    } );
+        } catch ( DataAccessException e ) {
+            square = null;
         }
+        return square;
     }
 
     @Override
-    public byte[] loadSquareBody( Square square ) throws Exception {
-        throw new IllegalAccessException( "Body is not stored in MySQL." );
+    public byte[] loadSquareBody( Square square ) {
+        throw new IllegalAccessError( "Body is not stored in MySQL." );
     }
-
 }

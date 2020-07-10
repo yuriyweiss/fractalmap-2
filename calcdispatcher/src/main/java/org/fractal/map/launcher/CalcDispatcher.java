@@ -12,22 +12,34 @@ import org.fractal.map.monitor.MonitorThread;
 import org.fractal.map.transceiver.server.ServerMessage;
 import org.fractal.map.transceiver.server.TransceiverServer;
 import org.fractal.map.util.ThreadUtils;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+@SpringBootApplication
+@ComponentScan( basePackages = { "org.fractal.map" } )
 public class CalcDispatcher {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private static MonitorThread monitorThread = null;
-    private static TransceiverServer transceiverServer = null;
-    private static ThreadPoolExecutor calcExecutor;
-    private static ThreadPoolExecutor squareExecutor;
+    private MonitorThread monitorThread = null;
+    private TransceiverServer transceiverServer = null;
+    private ThreadPoolExecutor calcExecutor;
+    private ThreadPoolExecutor squareExecutor;
 
-    public static void main( String[] args ) throws Exception {
+    public static void main( String[] args ) {
+        SpringApplication.run( CalcDispatcher.class, args );
+    }
+
+    @PostConstruct
+    public void launchApplication() throws IOException, ParseException {
         System.setProperty( "log4j.configurationFile", "conf/log4j2-calcdisp.xml" );
         LoggerContext.getContext( false ).reconfigure();
         Configuration.load( "conf/calcdisp.conf" );
@@ -36,8 +48,8 @@ public class CalcDispatcher {
 
         monitorThread = new MonitorThread( MonitorLoggingMode.CALC | MonitorLoggingMode.TRANSCEIVER );
 
-        calcExecutor = createProcessingExecutor( "calcExecutor", 10, 20, 10000 );
-        squareExecutor = createProcessingExecutor( "squareExecutor", 10, 100, 5000 );
+        calcExecutor = createProcessingExecutor( "calcExecutor", 20, 10000 );
+        squareExecutor = createProcessingExecutor( "squareExecutor", 100, 5000 );
         monitorThread.registerAdditionalKpi( new SquareQueueSizeKpi( squareExecutor ) );
 
         transceiverServer =
@@ -49,19 +61,14 @@ public class CalcDispatcher {
 
         monitorThread.start();
 
-        Runtime.getRuntime().addShutdownHook( new Thread() {
-            @Override
-            public void run() {
-                CalcDispatcher.stopApplication();
-            }
-        } );
+        Runtime.getRuntime().addShutdownHook( new Thread( this::stopApplication ) );
     }
 
-    private static ThreadPoolExecutor createProcessingExecutor( final String executorName,
-            int corePoolSize, int maxPoolSize, int queueCapacity ) {
+    private ThreadPoolExecutor createProcessingExecutor( final String executorName, int maxPoolSize,
+            int queueCapacity ) {
         ThreadPoolExecutor result =
-                new ThreadPoolExecutor( corePoolSize, maxPoolSize, 5000, TimeUnit.MILLISECONDS,
-                        new LinkedBlockingQueue<Runnable>( queueCapacity ) );
+                new ThreadPoolExecutor( 10, maxPoolSize, 5000, TimeUnit.MILLISECONDS,
+                        new LinkedBlockingQueue<>( queueCapacity ) );
         result.setRejectedExecutionHandler( ( task, executor ) -> {
             ServerMessage request = ( ( MessageProcessingTask ) task ).getMessage();
             logMessageIgnored( executorName, ( ServletMessage ) request.getBody() );
@@ -74,7 +81,7 @@ public class CalcDispatcher {
         logger.debug( message.getIgnoredMessageInfo() );
     }
 
-    public static void stopApplication() {
+    public void stopApplication() {
         if ( monitorThread != null ) {
             monitorThread.terminate();
         }
@@ -87,7 +94,7 @@ public class CalcDispatcher {
         stopProcessingExecutor( "squareExecutor", squareExecutor );
     }
 
-    private static void stopProcessingExecutor( String executorName, ThreadPoolExecutor executor ) {
+    private void stopProcessingExecutor( String executorName, ThreadPoolExecutor executor ) {
         executor.shutdown();
         try {
             // Wait a while for existing tasks to terminate
