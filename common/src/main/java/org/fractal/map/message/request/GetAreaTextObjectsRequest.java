@@ -14,6 +14,9 @@ public class GetAreaTextObjectsRequest extends ServletMessage implements Request
     private int areaSizeX;
     private int areaSizeY;
 
+    public GetAreaTextObjectsRequest() {
+    }
+
     public GetAreaTextObjectsRequest( UUID requestUUID, int layerIndex, double re, double im,
             int areaSizeX, int areaSizeY ) {
         super( requestUUID );

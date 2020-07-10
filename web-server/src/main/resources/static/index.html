@@ -14,6 +14,7 @@
     <script type="text/javascript" src="js/frmp_paint_square.js"></script>
     <script type="text/javascript" src="js/frmp_zoom.js"></script>
     <script type="text/javascript" src="js/frmp_move_view.js"></script>
+    <script type="text/javascript" src="js/frmp_text_objects.js"></script>
 </head>
 <body>
     <table id="point_coords" style="background-color: white">
@@ -29,6 +30,9 @@
     <div id="layer_index" style="background-color: white">Layer index:</div>
     <div id="main_toolbar">
         <table id="toolbar_table">
+            <tr>
+                <td colspan="2"><button id="switch_mode" onclick="FRMP.switchBrowsingMode()" disabled>Normal</button></td>
+            </tr>
             <tr>
                 <td colspan="2"><button id="home_button" onclick="FRMP.returnToInitialState()">Home</button></td>
             </tr>

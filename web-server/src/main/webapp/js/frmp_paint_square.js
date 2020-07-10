@@ -15,7 +15,6 @@ FRMP.paintSquareIterationsCommon = function(iterations) {
 	let ctx = canvas.getContext('2d');
 	let fillStyleStr = 'rgb(' + colorValue + ', ' + colorValue + ', ' + colorValue + ')';
 	ctx.fillStyle = fillStyleStr;
-	// ctx.fillStyle = 'rgb(100, 100, 100)';
 	ctx.fillRect(FRMP.currentSquare.canvasLeftX, FRMP.currentSquare.canvasTopY, FRMP.squareSideSize, FRMP.squareSideSize);
 };
 

@@ -41,7 +41,8 @@ public class AreaTextObjectsCalculator {
         GetAreaTextObjectsResponse result =
                 new GetAreaTextObjectsResponse( request.getRequestUUID() );
 
-        Pair<Integer, Integer> canvasShift = calcCanvasShift( layer, leftRe, topIm, request.getRe(), request.getIm() );
+        Pair<Integer, Integer> canvasShift = calcCanvasShift( layer, leftRe, topIm, request.getRe(), request.getIm(),
+                areaHalfX, areaHalfY );
         for ( TextObjectInfo textObjectInfo : textObjects ) {
             int canvasX = ( int ) Math.round( ( textObjectInfo.getRe() - leftRe ) / layer.getPointWidth() ) +
                     canvasShift.getFirst();
@@ -56,9 +57,9 @@ public class AreaTextObjectsCalculator {
     }
 
     private Pair<Integer, Integer> calcCanvasShift( Layer layer, double leftRe, double topIm, double requestRe,
-            double requestIm ) {
-        int xDelta = ( int ) Math.round( ( requestRe - leftRe ) / layer.getPointWidth() );
-        int yDelta = ( int ) Math.round( ( topIm - requestIm ) / layer.getPointWidth() );
+            double requestIm, int areaHalfX, int areaHalfY ) {
+        int xDelta = areaHalfX - ( int ) Math.round( ( requestRe - leftRe ) / layer.getPointWidth() );
+        int yDelta = areaHalfY - ( int ) Math.round( ( topIm - requestIm ) / layer.getPointWidth() );
         return Pair.create( xDelta, yDelta );
     }
 }
