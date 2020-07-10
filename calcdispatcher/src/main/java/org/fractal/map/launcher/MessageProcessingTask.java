@@ -41,17 +41,17 @@ public class MessageProcessingTask implements Runnable {
                         new PointCoordsCalculator( ( PointCoordsRequest ) message.getBody() ).calculate();
                 break;
             case MessagesRegistrator.REQUEST_SQUARE:
-                LoadSquareStrategy loadStrategy =
-                        ApplicationContextHolder.getApplicationContext().getBean( CombinedLoadSquareStrategy.class );
-                SaveSquareStrategy saveStrategy =
-                        ApplicationContextHolder.getApplicationContext().getBean( CombinedSaveSquareStrategy.class );
+                LoadSquareStrategy loadStrategy = new CombinedLoadSquareStrategy();
+                SaveSquareStrategy saveStrategy = new CombinedSaveSquareStrategy();
                 response =
                         new SquareCalculator( ( SquareRequest ) message.getBody(), loadStrategy,
                                 saveStrategy ).calculate();
                 break;
             case MessagesRegistrator.REQUEST_GET_AREA_TEXT_OBJECTS:
+                AreaTextObjectsCalculator areaTextObjectsCalculator =
+                        ApplicationContextHolder.getApplicationContext().getBean( AreaTextObjectsCalculator.class );
                 response =
-                        new AreaTextObjectsCalculator( ( GetAreaTextObjectsRequest ) message.getBody() ).calculate();
+                        areaTextObjectsCalculator.calculate( ( GetAreaTextObjectsRequest ) message.getBody() );
                 break;
             default:
                 response = null;

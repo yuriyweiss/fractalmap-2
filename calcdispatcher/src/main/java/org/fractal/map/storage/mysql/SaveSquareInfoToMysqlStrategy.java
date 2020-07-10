@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SaveSquareInfoToMySQLStrategy implements SaveSquareStrategy {
+public class SaveSquareInfoToMysqlStrategy implements SaveSquareStrategy {
 
     private static final String INSERT_SQUARE_SQL =
             "insert ignore into `square`(`layer_index`, `left_re`, `top_im`, `iterations`) " +
@@ -16,7 +16,7 @@ public class SaveSquareInfoToMySQLStrategy implements SaveSquareStrategy {
     private JdbcTemplate mysqlJdbcTemplate;
 
     @Autowired
-    public SaveSquareInfoToMySQLStrategy( JdbcTemplate mysqlJdbcTemplate ) {
+    public SaveSquareInfoToMysqlStrategy( JdbcTemplate mysqlJdbcTemplate ) {
         this.mysqlJdbcTemplate = mysqlJdbcTemplate;
     }
 

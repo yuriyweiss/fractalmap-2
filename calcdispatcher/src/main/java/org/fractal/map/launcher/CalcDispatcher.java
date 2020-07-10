@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -60,8 +61,6 @@ public class CalcDispatcher {
         transceiverServer.start();
 
         monitorThread.start();
-
-        Runtime.getRuntime().addShutdownHook( new Thread( this::stopApplication ) );
     }
 
     private ThreadPoolExecutor createProcessingExecutor( final String executorName, int maxPoolSize,
@@ -81,6 +80,7 @@ public class CalcDispatcher {
         logger.debug( message.getIgnoredMessageInfo() );
     }
 
+    @PreDestroy
     public void stopApplication() {
         if ( monitorThread != null ) {
             monitorThread.terminate();

@@ -10,6 +10,15 @@ public class TextObjectInfo {
     private int canvasY;
     private String text;
 
+    public TextObjectInfo() {
+    }
+
+    public TextObjectInfo( double re, double im, String text ) {
+        this.re = re;
+        this.im = im;
+        this.text = text;
+    }
+
     public void readFromByteBuffer( ByteBuffer buffer ) {
         re = buffer.getDouble();
         im = buffer.getDouble();

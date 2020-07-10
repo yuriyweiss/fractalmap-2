@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoadSquareFromMySQLStrategy implements LoadSquareStrategy {
+public class LoadSquareFromMysqlStrategy implements LoadSquareStrategy {
 
     private static final String SELECT_SQUARE_SQL = "select `iterations` from square " +
             "where `layer_index` = ? and `left_re` = ? and `top_im` = ?";
@@ -16,7 +16,7 @@ public class LoadSquareFromMySQLStrategy implements LoadSquareStrategy {
     private JdbcTemplate mysqlJdbcTemplate;
 
     @Autowired
-    public LoadSquareFromMySQLStrategy( JdbcTemplate mysqlJdbcTemplate ) {
+    public LoadSquareFromMysqlStrategy( JdbcTemplate mysqlJdbcTemplate ) {
         this.mysqlJdbcTemplate = mysqlJdbcTemplate;
     }
 

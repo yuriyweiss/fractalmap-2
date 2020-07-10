@@ -2,31 +2,26 @@ package org.fractal.map.storage.combined;
 
 import org.fractal.map.calc.SaveSquareStrategy;
 import org.fractal.map.conf.Configuration;
+import org.fractal.map.launcher.ApplicationContextHolder;
 import org.fractal.map.model.Square;
 import org.fractal.map.storage.disk.SaveSquareToDiskStrategy;
-import org.fractal.map.storage.mysql.SaveSquareInfoToMySQLStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.fractal.map.storage.mysql.SaveSquareInfoToMysqlStrategy;
 
 import java.io.IOException;
 
-@Component
 public class CombinedSaveSquareStrategy implements SaveSquareStrategy {
 
-    private SaveSquareInfoToMySQLStrategy saveSquareInfoToMySQLStrategy;
+    private final SaveSquareInfoToMysqlStrategy saveSquareInfoToMySQLStrategy;
     private final String rootDir;
 
     public CombinedSaveSquareStrategy() {
-        this.rootDir = Configuration.getStorageDiskRootDir();
+        this( Configuration.getStorageDiskRootDir() );
     }
 
     public CombinedSaveSquareStrategy( String rootDir ) {
         this.rootDir = rootDir;
-    }
-
-    @Autowired
-    public void setSaveSquareInfoToMySQLStrategy( SaveSquareInfoToMySQLStrategy saveSquareInfoToMySQLStrategy ) {
-        this.saveSquareInfoToMySQLStrategy = saveSquareInfoToMySQLStrategy;
+        this.saveSquareInfoToMySQLStrategy =
+                ApplicationContextHolder.getApplicationContext().getBean( SaveSquareInfoToMysqlStrategy.class );
     }
 
     @Override
