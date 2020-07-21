@@ -121,3 +121,7 @@ FRMP.getPointCoords = function (canvasX, canvasY, onSuccess) {
         }
     });
 };
+
+FRMP.searchRoot = function () {
+    // TODO implement
+};
