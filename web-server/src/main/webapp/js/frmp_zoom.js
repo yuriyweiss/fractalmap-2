@@ -1,12 +1,12 @@
-FRMP.zoomInOneLayer = function() {
+FRMP.zoomInOneLayer = function () {
     FRMP.zoomOneLayer(true);
 };
 
-FRMP.zoomOutOneLayer = function() {
+FRMP.zoomOutOneLayer = function () {
     FRMP.zoomOneLayer(false);
 };
 
-FRMP.zoomOneLayer = function(zoomIn) {
+FRMP.zoomOneLayer = function (zoomIn) {
     let zoomOut = !zoomIn;
     // return if no zoom possible
     if ((zoomIn && !FRMP.hasNextLayer()) || (zoomOut && !FRMP.hasPrevLayer())) {

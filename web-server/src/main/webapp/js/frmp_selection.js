@@ -4,7 +4,7 @@ FRMP.markedRect = {
     y1: 0,
     x2: 0,
     y2: 0
-}
+};
 FRMP.backupImage = null;
 
 FRMP.redrawSelectionRect = function (canvasCoords) {
@@ -18,7 +18,7 @@ FRMP.restoreBackupImage = function () {
         let ctx = FRMP.fractalCanvas.getContext('2d');
         ctx.putImageData(FRMP.backupImage.imageData, FRMP.backupImage.left, FRMP.backupImage.top);
     }
-}
+};
 
 FRMP.saveBackupImage = function (canvasX, canvasY) {
     let rect = FRMP.rectFromCoords(FRMP.markedRect.x1, FRMP.markedRect.y1, canvasX, canvasY);
@@ -29,7 +29,7 @@ FRMP.saveBackupImage = function (canvasX, canvasY) {
         top: rect.top,
         imageData: imageData
     }
-}
+};
 
 FRMP.rectFromCoords = function (x1, y1, x2, y2) {
     return {
@@ -38,7 +38,7 @@ FRMP.rectFromCoords = function (x1, y1, x2, y2) {
         width: Math.abs(x2 - x1),
         height: Math.abs(y2 - y1)
     };
-}
+};
 
 FRMP.drawSelectionRect = function (canvasX, canvasY) {
     let rect = FRMP.rectFromCoords(FRMP.markedRect.x1, FRMP.markedRect.y1, canvasX, canvasY);
@@ -47,4 +47,4 @@ FRMP.drawSelectionRect = function (canvasX, canvasY) {
     ctx.beginPath();
     ctx.rect(rect.left, rect.top, rect.width, rect.height);
     ctx.stroke();
-}
+};

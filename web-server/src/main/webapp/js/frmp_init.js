@@ -1,4 +1,4 @@
-var FRMP = {};
+let FRMP = {};
 
 FRMP.squares = null;
 FRMP.textObjects = null;
