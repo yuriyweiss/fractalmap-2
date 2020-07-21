@@ -10,7 +10,7 @@ FRMP.mousePosIm = 0;
 
 FRMP.browsingMode = 'Normal';
 FRMP.normalMode = 'Normal';
-FRMP.findAttractorMode = 'Find attractor'
+FRMP.findRootMode = 'Find root'
 
 FRMP.showStatus = function (message) {
     $('#status_bar').text(message);
@@ -43,7 +43,7 @@ FRMP.hasPrevLayer = function () {
 
 FRMP.switchBrowsingMode = function () {
     if (FRMP.browsingMode === FRMP.normalMode) {
-        FRMP.browsingMode = FRMP.findAttractorMode;
+        FRMP.browsingMode = FRMP.findRootMode;
         $('#home_button').prop('disabled', true);
         $('#zoom_in_button').prop('disabled', true);
         $('#zoom_out_button').prop('disabled', true);
