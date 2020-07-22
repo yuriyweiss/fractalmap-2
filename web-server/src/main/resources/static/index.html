@@ -20,19 +20,27 @@
 <body>
     <table id="point_coords" style="background-color: white">
         <tr>
-            <td class="coords_column1">Point RE:</td>
-            <td class="coords_column2"><input type="text" id="point_re" /></td>
+            <td class="coords_column1">Left RE:</td>
+            <td class="coords_column2"><input type="text" id="left_re" readonly/></td>
         </tr>
         <tr>
-            <td class="coords_column1">Point IM:</td>
-            <td class="coords_column2"><input type="text" id="point_im" /></td>
+            <td class="coords_column1">Top IM:</td>
+            <td class="coords_column2"><input type="text" id="top_im" readonly/></td>
+        </tr>
+        <tr>
+            <td class="coords_column1">Right RE:</td>
+            <td class="coords_column2"><input type="text" id="right_re" readonly/></td>
+        </tr>
+        <tr>
+            <td class="coords_column1">Bottom IM:</td>
+            <td class="coords_column2"><input type="text" id="bottom_im" readonly/></td>
         </tr>
     </table>
     <div id="layer_index" style="background-color: white">Layer index:</div>
     <div id="main_toolbar">
         <table id="toolbar_table">
             <tr>
-                <td colspan="2"><button id="switch_mode" onclick="FRMP.switchBrowsingMode()" disabled>Normal</button></td>
+                <td colspan="2"><button id="switch_mode" onclick="FRMP.switchBrowsingMode()">Normal</button></td>
             </tr>
             <tr>
                 <td colspan="2"><button id="home_button" onclick="FRMP.returnToInitialState()">Home</button></td>

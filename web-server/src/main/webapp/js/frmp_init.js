@@ -7,6 +7,10 @@ FRMP.centerIm = 0;
 FRMP.processingSquare = 0;
 FRMP.mousePosRe = 0;
 FRMP.mousePosIm = 0;
+FRMP.mousePosLeftRe = 0;
+FRMP.mousePosRightRe = 0;
+FRMP.mousePosTopIm = 0;
+FRMP.mousePosBottomIm = 0;
 
 FRMP.browsingMode = 'Normal';
 FRMP.normalMode = 'Normal';
@@ -52,6 +56,8 @@ FRMP.switchBrowsingMode = function () {
         $('#home_button').prop('disabled', false);
         $('#zoom_in_button').prop('disabled', false);
         $('#zoom_out_button').prop('disabled', false);
+        $('#right_re').val('');
+        $('#bottom_im').val('');
     }
     $('#switch_mode').text(FRMP.browsingMode);
 };

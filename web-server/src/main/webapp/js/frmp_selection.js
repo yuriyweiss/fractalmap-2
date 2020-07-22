@@ -56,3 +56,17 @@ FRMP.drawSelectionRect = function (canvasX, canvasY) {
     ctx.strokeStyle = "#FF0000";
     ctx.strokeRect(rect.left + 1, rect.top + 1, rect.width - 2, rect.height - 2);
 };
+
+FRMP.areaSelectionFinished = function () {
+    let leftTop = {
+        x: FRMP.markedRect.x1 < FRMP.markedRect.x2 ? FRMP.markedRect.x1 : FRMP.markedRect.x2,
+        y: FRMP.markedRect.y1 < FRMP.markedRect.y2 ? FRMP.markedRect.y1 : FRMP.markedRect.y2
+    };
+    let rightBottom = {
+        x: FRMP.markedRect.x1 > FRMP.markedRect.x2 ? FRMP.markedRect.x1 : FRMP.markedRect.x2,
+        y: FRMP.markedRect.y1 > FRMP.markedRect.y2 ? FRMP.markedRect.y1 : FRMP.markedRect.y2
+    }
+    FRMP.getLeftTopPointCoords(leftTop.x, leftTop.y, function () {
+        FRMP.getRightBottomPointCoords(rightBottom.x, rightBottom.y, FRMP.searchRoot);
+    })
+};

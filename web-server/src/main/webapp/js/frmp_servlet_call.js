@@ -97,23 +97,13 @@ FRMP.loadNextSquare = function () {
     });
 };
 
-FRMP.getPointCoords = function (canvasX, canvasY, onSuccess) {
-    // get canvas center coords
-    let canvasCenterX = Math.round(FRMP.fractalCanvas.width / 2);
-    let canvasCenterY = Math.round(FRMP.fractalCanvas.height / 2);
-    // calculate shiftX, shiftY relative to the center
-    let calcShiftX = canvasX - canvasCenterX;
-    // y coord shift is inverted
-    let calcShiftY = canvasCenterY - canvasY;
-    let data = {
-        shiftX: calcShiftX,
-        shiftY: calcShiftY
-    };
+FRMP.getPointCoords = function (canvasX, canvasY, elementIdX, elementIdY, onSuccess) {
+    let data = FRMP.getPointCenterShift(canvasX, canvasY);
     $.get('get-point-coords', data, function (coordsResult) {
         if (!coordsResult.wasError) {
-            $('#point_re').val(coordsResult.re.toString());
+            $(elementIdX).val(coordsResult.re.toString());
             FRMP.mousePosRe = coordsResult.re;
-            $('#point_im').val(coordsResult.im.toString());
+            $(elementIdY).val(coordsResult.im.toString());
             FRMP.mousePosIm = coordsResult.im;
             if (onSuccess) {
                 onSuccess();
@@ -121,6 +111,37 @@ FRMP.getPointCoords = function (canvasX, canvasY, onSuccess) {
         }
     });
 };
+
+FRMP.getLeftTopPointCoords = function (canvasX, canvasY, onSuccess) {
+    FRMP.getPointCoords(canvasX, canvasY, '#left_re', '#top_im', function () {
+        FRMP.mousePosLeftRe = FRMP.mousePosRe;
+        FRMP.mousePosTopIm = FRMP.mousePosIm;
+        if (onSuccess) {
+            onSuccess();
+        }
+    });
+};
+
+FRMP.getRightBottomPointCoords = function (canvasX, canvasY, onSuccess) {
+    FRMP.getPointCoords(canvasX, canvasY, '#right_re', '#bottom_im', function () {
+        FRMP.mousePosRightRe = FRMP.mousePosRe;
+        FRMP.mousePosBottomIm = FRMP.mousePosIm;
+        if (onSuccess) {
+            onSuccess();
+        }
+    });
+};
+
+FRMP.getPointCenterShift = function (canvasX, canvasY) {
+    // calculate shiftX, shiftY relative to the center
+    let calcShiftX = Math.round(canvasX - FRMP.fractalCanvas.width / 2);
+    // y coord shift is inverted
+    let calcShiftY = Math.round(FRMP.fractalCanvas.height / 2 - canvasY);
+    return {
+        shiftX: calcShiftX,
+        shiftY: calcShiftY
+    };
+}
 
 FRMP.searchRoot = function () {
     // TODO implement

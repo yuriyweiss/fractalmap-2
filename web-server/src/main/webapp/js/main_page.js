@@ -15,15 +15,18 @@ $(document).ready(function () {
 });
 
 function refreshPageInfo() {
-    $('#point_re').val(FRMP.centerRe.toString());
-    $('#point_im').val(FRMP.centerIm.toString());
+    $('#left_re').val(FRMP.centerRe.toString());
+    $('#top_im').val(FRMP.centerIm.toString());
     $('#layer_index').text('Layer index: ' + FRMP.currentLayerIndex);
 }
 
 function onCanvasClick(evt) {
+    if (FRMP.browsingMode === FRMP.findRootMode) {
+        return;
+    }
     console.log('mouse clicked');
     let canvasCoords = getMouseCoordsInCanvas(evt);
-    FRMP.getPointCoords(canvasCoords.canvasX, canvasCoords.canvasY);
+    FRMP.getLeftTopPointCoords(canvasCoords.canvasX, canvasCoords.canvasY);
     return false;
 }
 
@@ -37,15 +40,21 @@ function getMouseCoordsInCanvas(evt) {
 }
 
 function onCanvasDblClick(evt) {
+    if (FRMP.browsingMode === FRMP.findRootMode) {
+        return;
+    }
     console.log('mouse dblclicked');
     let canvasCoords = getMouseCoordsInCanvas(evt);
-    FRMP.getPointCoords(canvasCoords.canvasX, canvasCoords.canvasY, function () {
+    FRMP.getLeftTopPointCoords(canvasCoords.canvasX, canvasCoords.canvasY, function () {
         FRMP.changeViewportParams(FRMP.currentLayerIndex, FRMP.mousePosRe, FRMP.mousePosIm);
     });
     return false;
 }
 
 function onCanvasMouseDown(evt) {
+    if (FRMP.browsingMode === FRMP.normalMode) {
+        return;
+    }
     let canvasCoords = getMouseCoordsInCanvas(evt);
     FRMP.mouseDown = true;
     FRMP.markedRect = {
@@ -55,29 +64,34 @@ function onCanvasMouseDown(evt) {
         y2: canvasCoords.canvasY,
         prevTime: Date.now()
     };
+    return false;
 }
 
 function onCanvasMouseMove(evt) {
-    if (FRMP.mouseDown) {
-        let canvasCoords = getMouseCoordsInCanvas(evt);
-        let currentTime = Date.now();
-        if (currentTime - FRMP.markedRect.prevTime > 100) {
-            FRMP.redrawSelectionRect(canvasCoords);
-            FRMP.markedRect.prevTime = currentTime;
-        }
-        FRMP.markedRect.x2 = canvasCoords.canvasX;
-        FRMP.markedRect.y2 = canvasCoords.canvasY;
+    if (!FRMP.mouseDown || FRMP.browsingMode === FRMP.normalMode) {
+        return;
     }
+    let canvasCoords = getMouseCoordsInCanvas(evt);
+    let currentTime = Date.now();
+    if (currentTime - FRMP.markedRect.prevTime > 50) {
+        FRMP.redrawSelectionRect(canvasCoords);
+        FRMP.markedRect.prevTime = currentTime;
+    }
+    FRMP.markedRect.x2 = canvasCoords.canvasX;
+    FRMP.markedRect.y2 = canvasCoords.canvasY;
+    return false;
 }
 
 function onCanvasMouseUp(evt) {
-    if (FRMP.mouseDown) {
-        let canvasCoords = getMouseCoordsInCanvas(evt);
-        FRMP.markedRect.x2 = canvasCoords.canvasX;
-        FRMP.markedRect.y2 = canvasCoords.canvasY;
-        FRMP.restoreBackupImage();
-        FRMP.mouseDown = false;
-        FRMP.backupImage = null;
-        FRMP.searchRoot();
+    if (!FRMP.mouseDown || FRMP.browsingMode === FRMP.normalMode) {
+        return;
     }
+    let canvasCoords = getMouseCoordsInCanvas(evt);
+    FRMP.markedRect.x2 = canvasCoords.canvasX;
+    FRMP.markedRect.y2 = canvasCoords.canvasY;
+    FRMP.restoreBackupImage();
+    FRMP.mouseDown = false;
+    FRMP.backupImage = null;
+    FRMP.areaSelectionFinished();
+    return false;
 }
