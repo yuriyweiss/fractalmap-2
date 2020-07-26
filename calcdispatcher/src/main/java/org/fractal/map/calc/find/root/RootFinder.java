@@ -1,6 +1,8 @@
 package org.fractal.map.calc.find.root;
 
 import org.apache.commons.math3.util.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.fractal.map.conf.Configuration;
 
 import java.util.Arrays;
@@ -13,40 +15,48 @@ import java.util.Arrays;
  */
 public class RootFinder {
 
+    private static final Logger logger = LogManager.getLogger();
+
     public static final double ZERO_APPROX = 1E-10;
     public static final int ITER_TO_STORE = 100;
     public static final int SEARCH_ROUNDS_LIMIT = 15;
 
     /**
      * Perform search and save result to database.<br>
-     * There must be exactly one root in selected area for this procedure to return correct result.
+     * There must be exactly one root in selected area for this procedure to return correct result.<br>
+     * Return minimum iteration when zero reached or -1 if root not found.
      *
-     * @param layerIndex
-     * @param leftRe
-     * @param topIm
-     * @param rightRe
-     * @param bottomIm
-     * @return
+     * @param layerIndex minimum layer index for text object display
+     * @param leftRe     left Re coordinate of search area
+     * @param topIm      top Im coordinate of search area
+     * @param rightRe    right Re coordinate of search area
+     * @param bottomIm   bottom Im coordinate of search area
+     * @return minimum iteration when zero reached or -1
      */
     public int findRoot( int layerIndex, double leftRe, double topIm, double rightRe, double bottomIm ) {
+        logger.info( "root search started for area: [leftRe: {}, bottomIm: {}, rightRe: {}, topIm: {}]", leftRe,
+                bottomIm, rightRe, topIm );
         Pair<Double, Double> rootCandidate = doFindRoot( 1, leftRe, bottomIm, rightRe, topIm );
         if ( rootCandidate == null ) {
             return -1;
         }
-        int degree = findMinPolynomialDegree( rootCandidate.getFirst(), rootCandidate.getSecond() );
-        // find min polynomial degree for root
-        // save text object to DB with min layer index
-        return -1;
+        double rootRe = rootCandidate.getFirst();
+        double rootIm = rootCandidate.getSecond();
+        int degree = findMinPolynomialDegree( rootRe, rootIm );
+        if ( degree != -1 ) {
+            saveRootToTextObjects( layerIndex, rootRe, rootIm, degree );
+        }
+        return degree;
     }
 
     /**
      * Recursive root finding procedure, narrowing search area.
      *
-     * @param currentRound
-     * @param leftRe
-     * @param bottomIm
-     * @param rightRe
-     * @param topIm
+     * @param currentRound current depth of recursion
+     * @param leftRe       left Re coordinate of search area
+     * @param topIm        top Im coordinate of search area
+     * @param rightRe      right Re coordinate of search area
+     * @param bottomIm     bottom Im coordinate of search area
      * @return
      */
     public Pair<Double, Double> doFindRoot( int currentRound, double leftRe, double bottomIm, double rightRe,
@@ -62,15 +72,22 @@ public class RootFinder {
         // check if recursion must be stopped
         if ( minimums[posY][posX] == Double.MAX_VALUE ) {
             // user selected area out of Mandelbrot set
+            logger.info( "currentRound: {}, all area points are out of Mandelbrot set", currentRound );
             return null;
         }
         if ( minimums[posY][posX] < ZERO_APPROX ) {
             // root found
+            logger.info( "currentRound: {}, iteration minimum fits ZERO_APPROX: {}", currentRound,
+                    minimums[posY][posX] );
             return Pair.create( leftRe + posX * stepX, bottomIm + posY * stepY );
         } else if ( currentRound == SEARCH_ROUNDS_LIMIT ) {
             // desirable approximation to 0 not reached in 15 rounds
+            logger.info( "currentRound: {}, ZERO_APPROX not reached, minimum: {}", currentRound,
+                    minimums[posY][posX] );
             return null;
         }
+        logger.info( "currentRound: {}, minimum: [{}] found at: [x: {}, y: {}]", currentRound, minimums[posY][posX],
+                posX, posY );
         // call recursion with narrowed search area
         return doFindRoot( currentRound + 1,
                 leftRe + limitToBounds( posX - 1 ) * stepX,
@@ -171,7 +188,38 @@ public class RootFinder {
         }
     }
 
+    /**
+     * Perform Mandelbrot iterations until zero point reached.<br>
+     * Iteration when zero point reached is result of our search. If predefined approximation of zero is unreachable
+     * in 100 iterations, then return -1.
+     *
+     * @param re real coordinate of root candidate
+     * @param im imaginary coordinate of root candidate
+     * @return zero reached iteration or -1 if zerg not reached
+     */
     private int findMinPolynomialDegree( Double re, Double im ) {
-        return -1;
+        double prevRe = re;
+        double prevIm = im;
+        int currentDegree = 0;
+        boolean zeroFound = false;
+        while ( !zeroFound ) {
+            currentDegree++;
+            double currRe = prevRe * prevRe - prevIm * prevIm + re;
+            double currIm = 2 * prevRe * prevIm + im;
+            double modulo = Math.sqrt( currRe * currRe + currIm * currIm );
+            prevRe = currRe;
+            prevIm = currIm;
+            if ( modulo <= ZERO_APPROX ) {
+                zeroFound = true;
+            }
+            if ( currentDegree > 100 ) {
+                return -1;
+            }
+        }
+        return currentDegree;
+    }
+
+    private void saveRootToTextObjects( int layerIndex, double rootRe, double rootIm, int degree ) {
+        // TODO implement
     }
 }
