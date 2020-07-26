@@ -4,6 +4,9 @@ import org.apache.commons.math3.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.fractal.map.conf.Configuration;
+import org.fractal.map.message.request.FindRootRequest;
+import org.fractal.map.message.response.FindRootResponse;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
@@ -13,6 +16,7 @@ import java.util.Arrays;
  * Polynomial degree is limited by 100. If greater, then nearest to 0 iteration may be not present in lastIterations
  * array.
  */
+@Component
 public class RootFinder {
 
     private static final Logger logger = LogManager.getLogger();
@@ -26,27 +30,23 @@ public class RootFinder {
      * There must be exactly one root in selected area for this procedure to return correct result.<br>
      * Return minimum iteration when zero reached or -1 if root not found.
      *
-     * @param layerIndex minimum layer index for text object display
-     * @param leftRe     left Re coordinate of search area
-     * @param topIm      top Im coordinate of search area
-     * @param rightRe    right Re coordinate of search area
-     * @param bottomIm   bottom Im coordinate of search area
-     * @return minimum iteration when zero reached or -1
+     * @param request root find request
+     * @return prepared find root response holding -1 in case of some trouble
      */
-    public int findRoot( int layerIndex, double leftRe, double topIm, double rightRe, double bottomIm ) {
-        logger.info( "root search started for area: [leftRe: {}, bottomIm: {}, rightRe: {}, topIm: {}]", leftRe,
-                bottomIm, rightRe, topIm );
-        Pair<Double, Double> rootCandidate = doFindRoot( 1, leftRe, bottomIm, rightRe, topIm );
+    public FindRootResponse findRoot( FindRootRequest request ) {
+        logger.info( "root search started for request: {}", request );
+        Pair<Double, Double> rootCandidate =
+                doFindRoot( 1, request.getLeftRe(), request.getBottomIm(), request.getRightRe(), request.getTopIm() );
         if ( rootCandidate == null ) {
-            return -1;
+            return new FindRootResponse( request.getRequestUUID(), -1 );
         }
         double rootRe = rootCandidate.getFirst();
         double rootIm = rootCandidate.getSecond();
         int degree = findMinPolynomialDegree( rootRe, rootIm );
         if ( degree != -1 ) {
-            saveRootToTextObjects( layerIndex, rootRe, rootIm, degree );
+            saveRootToTextObjects( request.getLayerIndex(), rootRe, rootIm, degree );
         }
-        return degree;
+        return new FindRootResponse( request.getRequestUUID(), degree );
     }
 
     /**
@@ -57,7 +57,7 @@ public class RootFinder {
      * @param topIm        top Im coordinate of search area
      * @param rightRe      right Re coordinate of search area
      * @param bottomIm     bottom Im coordinate of search area
-     * @return
+     * @return coordinates of root candidate; if error, then null
      */
     public Pair<Double, Double> doFindRoot( int currentRound, double leftRe, double bottomIm, double rightRe,
             double topIm ) {

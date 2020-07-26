@@ -1,11 +1,13 @@
 package org.fractal.map.message;
 
 import org.fractal.map.message.request.AreaSquarePartitionRequest;
+import org.fractal.map.message.request.FindRootRequest;
 import org.fractal.map.message.request.GetAreaTextObjectsRequest;
 import org.fractal.map.message.request.PointCoordsRequest;
 import org.fractal.map.message.request.SquareRequest;
 import org.fractal.map.message.response.AreaSquarePartitionResponse;
 import org.fractal.map.message.response.CalcErrorResponse;
+import org.fractal.map.message.response.FindRootResponse;
 import org.fractal.map.message.response.GetAreaTextObjectsResponse;
 import org.fractal.map.message.response.PointCoordsResponse;
 import org.fractal.map.message.response.SquareResponse;
@@ -21,6 +23,8 @@ public class MessagesRegistrator {
     public static final int RESPONSE_SQUARE = 6;
     public static final int REQUEST_GET_AREA_TEXT_OBJECTS = 7;
     public static final int RESPONSE_GET_AREA_TEXT_OBJECTS = 8;
+    public static final int REQUEST_FIND_ROOT = 9;
+    public static final int RESPONSE_FIND_ROOT = 10;
 
     public static final int RESPONSE_CALC_ERROR = 100;
 
@@ -38,6 +42,8 @@ public class MessagesRegistrator {
         TransportableFactory.registerClass( RESPONSE_SQUARE, SquareResponse.class );
         TransportableFactory.registerClass( REQUEST_GET_AREA_TEXT_OBJECTS, GetAreaTextObjectsRequest.class );
         TransportableFactory.registerClass( RESPONSE_GET_AREA_TEXT_OBJECTS, GetAreaTextObjectsResponse.class );
+        TransportableFactory.registerClass( REQUEST_FIND_ROOT, FindRootRequest.class );
+        TransportableFactory.registerClass( RESPONSE_FIND_ROOT, FindRootResponse.class );
         TransportableFactory.registerClass( RESPONSE_CALC_ERROR, CalcErrorResponse.class );
     }
 }

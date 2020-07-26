@@ -2,6 +2,7 @@ package org.fractal.map.launcher;
 
 import org.fractal.map.calc.LoadSquareStrategy;
 import org.fractal.map.calc.SaveSquareStrategy;
+import org.fractal.map.calc.find.root.RootFinder;
 import org.fractal.map.calc.request.AreaTextObjectsCalculator;
 import org.fractal.map.calc.request.PointCoordsCalculator;
 import org.fractal.map.calc.request.SquareCalculator;
@@ -9,6 +10,7 @@ import org.fractal.map.calc.request.SquaresPartitionCalculator;
 import org.fractal.map.message.MessagesRegistrator;
 import org.fractal.map.message.ServletMessage;
 import org.fractal.map.message.request.AreaSquarePartitionRequest;
+import org.fractal.map.message.request.FindRootRequest;
 import org.fractal.map.message.request.GetAreaTextObjectsRequest;
 import org.fractal.map.message.request.PointCoordsRequest;
 import org.fractal.map.message.request.SquareRequest;
@@ -52,6 +54,11 @@ public class MessageProcessingTask implements Runnable {
                         ApplicationContextHolder.getApplicationContext().getBean( AreaTextObjectsCalculator.class );
                 response =
                         areaTextObjectsCalculator.calculate( ( GetAreaTextObjectsRequest ) message.getBody() );
+                break;
+            case MessagesRegistrator.REQUEST_FIND_ROOT:
+                RootFinder rootFinder =
+                        ApplicationContextHolder.getApplicationContext().getBean( RootFinder.class );
+                response = rootFinder.findRoot( ( FindRootRequest ) message.getBody() );
                 break;
             default:
                 response = null;
