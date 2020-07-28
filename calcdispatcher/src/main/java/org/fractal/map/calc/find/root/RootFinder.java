@@ -21,7 +21,7 @@ public class RootFinder {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public static final double ZERO_APPROX = 1E-10;
+    public static final double ZERO_APPROX = 1E-8;
     public static final int ITER_TO_STORE = 100;
     public static final int SEARCH_ROUNDS_LIMIT = 15;
 
@@ -43,6 +43,7 @@ public class RootFinder {
         double rootRe = rootCandidate.getFirst();
         double rootIm = rootCandidate.getSecond();
         int degree = findMinPolynomialDegree( rootRe, rootIm );
+        logger.info( "min polynomial degree: {}", degree );
         if ( degree != -1 ) {
             saveRootToTextObjects( request.getLayerIndex(), rootRe, rootIm, degree );
         }
