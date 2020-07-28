@@ -144,5 +144,22 @@ FRMP.getPointCenterShift = function (canvasX, canvasY) {
 }
 
 FRMP.searchRoot = function () {
-    // TODO implement
+    let data = {
+        leftRe: FRMP.mousePosLeftRe,
+        topIm: FRMP.mousePosTopIm,
+        rightRe: FRMP.mousePosRightRe,
+        bottomIm: FRMP.mousePosBottomIm
+    };
+    $.get('find-root', data, function (result) {
+        if (result.wasError) {
+            FRMP.showStatus('ERROR finding root: ' + result.errorMessage);
+        } else {
+            if (result.polynomialDegree === -1) {
+                FRMP.showStatus('FAILURE find root result = -1');
+            } else {
+                FRMP.showStatus('SUCCESS find root result = ' + result.polynomialDegree);
+            }
+            FRMP.changeViewportParams(FRMP.currentLayerIndex, FRMP.centerRe, FRMP.centerIm);
+        }
+    });
 };

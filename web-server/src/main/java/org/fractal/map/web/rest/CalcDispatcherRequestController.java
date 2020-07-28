@@ -24,6 +24,7 @@ public class CalcDispatcherRequestController {
     private GetSquareMethod getSquareMethod;
     private GetPointCoordsMethod getPointCoordsMethod;
     private LoadTextObjectsMethod loadTextObjectsMethod;
+    private FindRootMethod findRootMethod;
 
     @Autowired
     public CalcDispatcherRequestController(
@@ -31,12 +32,14 @@ public class CalcDispatcherRequestController {
             SquaresPartitionMethod squaresPartitionMethod,
             GetSquareMethod getSquareMethod,
             GetPointCoordsMethod getPointCoordsMethod,
-            LoadTextObjectsMethod loadTextObjectsMethod ) {
+            LoadTextObjectsMethod loadTextObjectsMethod,
+            FindRootMethod findRootMethod ) {
         this.webServerTransceiverClient = webServerTransceiverClient;
         this.squaresPartitionMethod = squaresPartitionMethod;
         this.getSquareMethod = getSquareMethod;
         this.getPointCoordsMethod = getPointCoordsMethod;
         this.loadTextObjectsMethod = loadTextObjectsMethod;
+        this.findRootMethod = findRootMethod;
     }
 
     @GetMapping( path = "/initialize-form" )
@@ -116,5 +119,20 @@ public class CalcDispatcherRequestController {
         requestParams.put( Names.AREA_WIDTH, areaWidth );
         requestParams.put( Names.AREA_HEIGHT, areaHeight );
         return loadTextObjectsMethod.processGetRequest( requestParams, httpSession, webServerTransceiverClient );
+    }
+
+    @GetMapping( path = "/find-root" )
+    public AbstractInfo findRoot(
+            @RequestParam( name = "leftRe" ) double leftRe,
+            @RequestParam( name = "topIm" ) double topIm,
+            @RequestParam( name = "rightRe" ) double rightRe,
+            @RequestParam( name = "bottomIm" ) double bottomIm,
+            HttpSession httpSession ) {
+        Map<String, Object> requestParams = new HashMap<>();
+        requestParams.put( Names.LEFT_RE, leftRe );
+        requestParams.put( Names.TOP_IM, topIm );
+        requestParams.put( Names.RIGHT_RE, rightRe );
+        requestParams.put( Names.BOTTOM_IM, bottomIm );
+        return findRootMethod.processGetRequest( requestParams, httpSession, webServerTransceiverClient );
     }
 }
