@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.fractal.map.conf.Configuration;
 import org.fractal.map.message.request.FindRootRequest;
 import org.fractal.map.message.response.FindRootResponse;
+import org.fractal.map.storage.mysql.TextObjectToMysqlSaver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -24,6 +26,13 @@ public class RootFinder {
     public static final double ZERO_APPROX = 1E-8;
     public static final int ITER_TO_STORE = 100;
     public static final int SEARCH_ROUNDS_LIMIT = 15;
+
+    private TextObjectToMysqlSaver textObjectSaver;
+
+    @Autowired
+    public RootFinder( TextObjectToMysqlSaver textObjectSaver ) {
+        this.textObjectSaver = textObjectSaver;
+    }
 
     /**
      * Perform search and save result to database.<br>
@@ -45,7 +54,10 @@ public class RootFinder {
         int degree = findMinPolynomialDegree( rootRe, rootIm );
         logger.info( "min polynomial degree: {}", degree );
         if ( degree != -1 ) {
-            saveRootToTextObjects( request.getLayerIndex(), rootRe, rootIm, degree );
+            // root finding needs large scale, but text must be displayed on earlier layers
+            int minLayerIndex = request.getLayerIndex() > 2 ? request.getLayerIndex() - 2 : 1;
+            // save root info to DB
+            textObjectSaver.save( minLayerIndex, rootRe, rootIm, Integer.toString( degree ) );
         }
         return new FindRootResponse( request.getRequestUUID(), degree );
     }
@@ -199,6 +211,7 @@ public class RootFinder {
      * @return zero reached iteration or -1 if zerg not reached
      */
     private int findMinPolynomialDegree( Double re, Double im ) {
+        logger.trace( "started findMinPolynomialDegree() for [re: {}, im: {}]", re, im );
         double prevRe = re;
         double prevIm = im;
         int currentDegree = 0;
@@ -208,6 +221,7 @@ public class RootFinder {
             double currRe = prevRe * prevRe - prevIm * prevIm + re;
             double currIm = 2 * prevRe * prevIm + im;
             double modulo = Math.sqrt( currRe * currRe + currIm * currIm );
+            logger.trace( "degree: {}, re: {}, im: {}, modulo: {}", currentDegree, currRe, currIm, modulo );
             prevRe = currRe;
             prevIm = currIm;
             if ( modulo <= ZERO_APPROX ) {
@@ -218,9 +232,5 @@ public class RootFinder {
             }
         }
         return currentDegree;
-    }
-
-    private void saveRootToTextObjects( int layerIndex, double rootRe, double rootIm, int degree ) {
-        // TODO implement
     }
 }
