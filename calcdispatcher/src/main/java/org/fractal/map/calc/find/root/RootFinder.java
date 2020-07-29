@@ -55,7 +55,7 @@ public class RootFinder {
         logger.info( "min polynomial degree: {}", degree );
         if ( degree != -1 ) {
             // root finding needs large scale, but text must be displayed on earlier layers
-            int minLayerIndex = request.getLayerIndex() > 2 ? request.getLayerIndex() - 2 : 1;
+            int minLayerIndex = request.getLayerIndex() > 1 ? request.getLayerIndex() - 1 : 1;
             // save root info to DB
             textObjectSaver.save( minLayerIndex, rootRe, rootIm, Integer.toString( degree ) );
         }
